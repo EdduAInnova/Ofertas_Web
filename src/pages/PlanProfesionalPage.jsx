@@ -32,7 +32,7 @@ export default function PlanProfesionalPage() {
         // Parámetros de la compra
         name: "Plan Profesional - Sitio Web",
         description: "Pago inicial (50%) para el Plan Profesional de desarrollo web.",
-        invoice: `casaregis-profesional-${Date.now()}`, // Factura única
+        invoice: `ofertas-web-profesional-${Date.now()}`, // Factura única
         currency: "usd",
         amount: "275",
         tax_base: "275",

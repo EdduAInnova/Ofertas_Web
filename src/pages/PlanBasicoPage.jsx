@@ -32,7 +32,7 @@ export default function PlanBasicoPage() {
         // Parámetros de la compra
         name: "Plan Básico - Sitio Web",
         description: "Pago inicial (50%) para el Plan Básico de desarrollo web.",
-        invoice: `casaregis-basico-${Date.now()}`, // Factura única para cada transacción
+        invoice: `ofertas-web-basico-${Date.now()}`, // Factura única para cada transacción
         currency: "usd",
         amount: "125",
         tax_base: "125",

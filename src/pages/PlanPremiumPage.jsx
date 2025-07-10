@@ -32,7 +32,7 @@ export default function PlanPremiumPage() {
         // Parámetros de la compra
         name: "Plan Premium - Sitio Web",
         description: "Pago inicial (50%) para el Plan Premium de desarrollo web.",
-        invoice: `casaregis-premium-${Date.now()}`, // Factura única
+        invoice: `ofertas-web-premium-${Date.now()}`, // Factura única
         currency: "usd",
         amount: "475",
         tax_base: "475",
