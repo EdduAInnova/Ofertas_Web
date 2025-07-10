@@ -185,10 +185,6 @@ export default function SchedulingPage() {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <PageLayout>
       {isLoading && <LoadingSpinner />}
