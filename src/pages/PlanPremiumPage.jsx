@@ -1,23 +1,8 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
+import Benefit from '../components/plan/Benefit';
+import Requirement from '../components/plan/Requirement';
 import { Gem, CheckCircle, DollarSign, CreditCard } from 'lucide-react';
-
-const Benefit = ({ title, children }) => (
-  <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-    <h3 className="font-bold text-lg text-purple-400 mb-2">{title}</h3>
-    <p className="text-gray-300 text-sm">{children}</p>
-  </div>
-);
-
-const Requirement = ({ icon, title, children }) => (
-  <div className="bg-yellow-900/20 border border-yellow-500/30 p-4 rounded-lg flex items-start gap-4">
-    <div className="text-yellow-400 mt-1">{icon}</div>
-    <div>
-      <h3 className="font-bold text-yellow-400">{title}</h3>
-      <p className="text-gray-300 text-sm">{children}</p>
-    </div>
-  </div>
-);
 
 export default function PlanPremiumPage() {
   const handlePayment = () => {
@@ -67,22 +52,22 @@ export default function PlanPremiumPage() {
       <section className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">Todo lo del Plan Profesional, y además:</h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <Benefit title="Diseño 'App-like' con Animaciones">
+          <Benefit title="Diseño 'App-like' con Animaciones" color="purple">
             Elevamos tu web a otro nivel con un diseño que se siente como una aplicación móvil. Usamos animaciones sutiles y transiciones fluidas que crean una experiencia de usuario moderna y memorable.
           </Benefit>
-          <Benefit title="Motor de Reservas con Calendario">
+          <Benefit title="Motor de Reservas con Calendario" color="purple">
             La máxima autonomía. Integramos un sistema de reservas completo con calendario de disponibilidad en tiempo real. Gestiona tus reservas, precios y temporadas directamente desde tu panel.
           </Benefit>
-          <Benefit title="Chat con IA 24/7">
+          <Benefit title="Chat con IA 24/7" color="purple">
             Tu recepcionista virtual. Configuramos un chatbot inteligente que puede responder preguntas frecuentes, dar información y hasta pre-agendar reservas, incluso mientras duermes.
           </Benefit>
-          <Benefit title="Sitio Multilenguaje">
+          <Benefit title="Sitio Multilenguaje" color="purple">
             Abre tus puertas al mundo. Preparamos tu sitio web para que funcione en varios idiomas (ej: Español e Inglés), permitiéndote captar clientes internacionales.
           </Benefit>
-          <Benefit title="Soporte Extendido y Mantenimiento">
+          <Benefit title="Soporte Extendido y Mantenimiento" color="purple">
             Tu tranquilidad es nuestra prioridad. Te ofrecemos 90 días de soporte técnico post-lanzamiento y un plan de mantenimiento mensual gratuito para asegurar que tu web siempre funcione a la perfección.
           </Benefit>
-           <Benefit title="Correos Corporativos Ilimitados">
+           <Benefit title="Correos Corporativos Ilimitados" color="purple">
             Proyecta una imagen 100% profesional con todas las cuentas de correo que necesites (ej: `reservas@`, `gerencia@`, etc.), incluidas en tu plan de hosting.
           </Benefit>
         </div>
@@ -90,13 +75,10 @@ export default function PlanPremiumPage() {
 
       <section className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text">Aclaraciones Importantes</h2>
-        <div className="bg-black/20 p-6 rounded-lg border border-white/10 space-y-4">
-          <div className="flex items-start gap-3">
-            <CheckCircle className="text-green-400 w-5 h-5 mt-1 shrink-0" />
-            <p className="text-gray-300">
-              Este es nuestro plan todo incluido. **Hosting, Dominio, Mantenimiento y Soporte Extendido están cubiertos** durante el primer año. Nos encargamos de absolutamente todo.
-            </p>
-          </div>
+        <div className="space-y-4">
+          <Requirement icon={<CheckCircle size={24} />} title="Plan Todo Incluido">
+            Este es nuestro plan todo incluido. **Hosting, Dominio, Mantenimiento y Soporte Extendido están cubiertos** durante el primer año. Nos encargamos de absolutamente todo.
+          </Requirement>
         </div>
       </section>
 

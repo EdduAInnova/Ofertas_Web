@@ -1,23 +1,8 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
+import Benefit from '../components/plan/Benefit';
+import Requirement from '../components/plan/Requirement';
 import { Feather, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
-
-const Benefit = ({ title, children }) => (
-  <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-    <h3 className="font-bold text-lg text-green-400 mb-2">{title}</h3>
-    <p className="text-gray-300 text-sm">{children}</p>
-  </div>
-);
-
-const Requirement = ({ icon, title, children }) => (
-  <div className="bg-yellow-900/20 border border-yellow-500/30 p-4 rounded-lg flex items-start gap-4">
-    <div className="text-yellow-400 mt-1">{icon}</div>
-    <div>
-      <h3 className="font-bold text-yellow-400">{title}</h3>
-      <p className="text-gray-300 text-sm">{children}</p>
-    </div>
-  </div>
-);
 
 export default function PlanBasicoPage() {
   const handlePayment = () => {
@@ -67,22 +52,22 @@ export default function PlanBasicoPage() {
       <section className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-green-400 to-cyan-400 text-transparent bg-clip-text">¿Qué obtienes con este plan?</h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <Benefit title="Diseño Personalizado Básico">
+          <Benefit title="Diseño Personalizado Básico" color="green">
             Crearemos un sitio web con un diseño limpio y profesional que refleje la identidad de tu marca, usando tus colores y logo. Es la base perfecta para presentarte al mundo.
           </Benefit>
-          <Benefit title="Sitio Web Adaptable (Responsive)">
+          <Benefit title="Sitio Web Adaptable (Responsive)" color="green">
             Tu página se verá increíble y funcionará a la perfección en cualquier dispositivo: celulares, tablets y computadores. Esto es crucial, ya que la mayoría de tus clientes te visitarán desde su móvil.
           </Benefit>
-          <Benefit title="Secciones Esenciales">
+          <Benefit title="Secciones Esenciales" color="green">
             Incluiremos las páginas más importantes: un **Inicio** atractivo, una sección para mostrar tus **Habitaciones** o servicios, y una página de **Contacto** con tu información y un mapa.
           </Benefit>
-          <Benefit title="Enlace a Plataformas de Reserva">
+          <Benefit title="Enlace a Plataformas de Reserva" color="green">
             Si ya usas Booking, Airbnb u otra plataforma, pondremos botones y enlaces directos para que tus clientes puedan reservar fácilmente donde ya se sienten cómodos.
           </Benefit>
-          <Benefit title="Contacto Directo por WhatsApp">
+          <Benefit title="Contacto Directo por WhatsApp" color="green">
             Añadiremos un botón flotante de WhatsApp para que los visitantes puedan hablar contigo con un solo clic, resolviendo dudas y aumentando la confianza para que reserven.
           </Benefit>
-          <Benefit title="SEO Básico">
+          <Benefit title="SEO Básico" color="green">
             Configuraremos los elementos básicos para que los motores de búsqueda como Google puedan encontrar y entender tu sitio, ayudándote a aparecer en las búsquedas locales.
           </Benefit>
         </div>
@@ -90,19 +75,13 @@ export default function PlanBasicoPage() {
 
       <section className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text">Aclaraciones Importantes</h2>
-        <div className="bg-black/20 p-6 rounded-lg border border-white/10 space-y-4">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="text-yellow-400 w-5 h-5 mt-1 shrink-0" />
-            <p className="text-gray-300">
-              Este plan **no incluye** el costo del **Hosting** (el servidor donde se aloja tu web) ni el **Dominio** (el nombre `www.tu-negocio.com`). Estos servicios se pagan anualmente a un proveedor externo.
-            </p>
-          </div>
-          <div className="flex items-start gap-3">
-            <CheckCircle className="text-green-400 w-5 h-5 mt-1 shrink-0" />
-            <p className="text-gray-300">
-              ¡No te preocupes! Te asesoramos y recomendamos los mejores y más económicos proveedores (como Hostinger, SiteGround, etc.) para que hagas la mejor elección. El proceso es muy sencillo.
-            </p>
-          </div>
+        <div className="space-y-4">
+          <Requirement icon={<AlertTriangle size={24} />} title="Hosting y Dominio no incluidos">
+            Este plan **no incluye** el costo del **Hosting** (el servidor donde se aloja tu web) ni el **Dominio** (el nombre `www.tu-negocio.com`). Estos servicios se pagan anualmente a un proveedor externo.
+          </Requirement>
+          <Requirement icon={<CheckCircle size={24} />} title="Asesoría en Proveedores">
+            ¡No te preocupes! Te asesoramos y recomendamos los mejores y más económicos proveedores (como Hostinger, SiteGround, etc.) para que hagas la mejor elección. El proceso es muy sencillo.
+          </Requirement>
         </div>
       </section>
 

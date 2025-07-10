@@ -1,23 +1,8 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
+import Benefit from '../components/plan/Benefit';
+import Requirement from '../components/plan/Requirement';
 import { Briefcase, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
-
-const Benefit = ({ title, children }) => (
-  <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-    <h3 className="font-bold text-lg text-blue-400 mb-2">{title}</h3>
-    <p className="text-gray-300 text-sm">{children}</p>
-  </div>
-);
-
-const Requirement = ({ icon, title, children }) => (
-  <div className="bg-yellow-900/20 border border-yellow-500/30 p-4 rounded-lg flex items-start gap-4">
-    <div className="text-yellow-400 mt-1">{icon}</div>
-    <div>
-      <h3 className="font-bold text-yellow-400">{title}</h3>
-      <p className="text-gray-300 text-sm">{children}</p>
-    </div>
-  </div>
-);
 
 export default function PlanProfesionalPage() {
   const handlePayment = () => {
@@ -67,22 +52,22 @@ export default function PlanProfesionalPage() {
       <section className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-400 to-cyan-400 text-transparent bg-clip-text">Todo lo del Plan Básico, y además:</h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <Benefit title="Diseño Optimizado (UX/UI)">
+          <Benefit title="Diseño Optimizado (UX/UI)" color="blue">
             No solo creamos un sitio bonito, lo diseñamos pensando en el usuario. Hacemos que la navegación sea intuitiva y la experiencia de reserva sea tan sencilla que tus clientes querrán volver.
           </Benefit>
-          <Benefit title="Galería, Testimonios y más">
+          <Benefit title="Galería, Testimonios y más" color="blue">
             Añadimos secciones clave que generan confianza: una **Galería** de fotos espectacular, una sección de **Testimonios** de clientes satisfechos y un apartado de **Preguntas Frecuentes** para resolver dudas al instante.
           </Benefit>
-          <Benefit title="Formulario Interno de Reservas">
+          <Benefit title="Formulario Interno de Reservas" color="blue">
             Da un salto en profesionalismo. En lugar de solo enlazar a otras plataformas, integramos un formulario en tu web para que puedas gestionar las solicitudes de reserva directamente.
           </Benefit>
-          <Benefit title="Google Maps y SEO Mejorado">
+          <Benefit title="Google Maps y SEO Mejorado" color="blue">
             Integramos un mapa interactivo de Google y optimizamos tu sitio con palabras clave relevantes para tu negocio y ubicación, aumentando tus posibilidades de ser encontrado por nuevos clientes.
           </Benefit>
-          <Benefit title="Panel Editable con Capacitación">
+          <Benefit title="Panel Editable con Capacitación" color="blue">
             Te damos el control. Recibirás acceso a un panel de gestión sencillo donde podrás editar textos e imágenes. Además, te incluimos una capacitación para que aprendas a manejarlo sin complicaciones.
           </Benefit>
-          <Benefit title="Dominio y Hosting por 1 Año">
+          <Benefit title="Dominio y Hosting por 1 Año" color="blue">
             Nos encargamos de todo lo técnico. Este plan **incluye el registro de tu dominio (.com) y el servicio de hosting por todo el primer año**, para que no te preocupes por nada.
           </Benefit>
         </div>
@@ -90,19 +75,13 @@ export default function PlanProfesionalPage() {
 
       <section className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text">Aclaraciones Importantes</h2>
-        <div className="bg-black/20 p-6 rounded-lg border border-white/10 space-y-4">
-          <div className="flex items-start gap-3">
-            <CheckCircle className="text-green-400 w-5 h-5 mt-1 shrink-0" />
-            <p className="text-gray-300">
-              El **Hosting y Dominio están incluidos solo durante el primer año**. A partir del segundo año, la renovación corre por tu cuenta, pero te guiaremos en el sencillo proceso.
-            </p>
-          </div>
-           <div className="flex items-start gap-3">
-            <CheckCircle className="text-green-400 w-5 h-5 mt-1 shrink-0" />
-            <p className="text-gray-300">
-              Este plan incluye la configuración de hasta 3 cuentas de **correo corporativo** (ej: `contacto@tu-negocio.com`).
-            </p>
-          </div>
+        <div className="space-y-4">
+          <Requirement icon={<CheckCircle size={24} />} title="Hosting y Dominio por 1 Año">
+            El **Hosting y Dominio están incluidos solo durante el primer año**. A partir del segundo año, la renovación corre por tu cuenta, pero te guiaremos en el sencillo proceso.
+          </Requirement>
+          <Requirement icon={<CheckCircle size={24} />} title="Correos Corporativos">
+            Este plan incluye la configuración de hasta 3 cuentas de **correo corporativo** (ej: `contacto@tu-negocio.com`).
+          </Requirement>
         </div>
       </section>
 
