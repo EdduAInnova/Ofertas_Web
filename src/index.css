@@ -1,0 +1,6 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Puedes tener otros estilos personalizados debajo de esto */
