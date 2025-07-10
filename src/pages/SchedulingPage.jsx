@@ -171,9 +171,19 @@ export default function SchedulingPage() {
     // 'selectedDate' ya es un objeto Date, que Supabase maneja correctamente.
     const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
 
+    // Los nombres de las claves deben coincidir EXACTAMENTE con las columnas de la base de datos.
+    // Usamos snake_case aquí para que coincida con la tabla 'reuniones'.
     const { error } = await supabase
       .from('reuniones')
-      .insert([{ name, email, phone, selectedPlan, selectedDate, selectedTime, meetingType }]);
+      .insert([{ 
+        name: name, 
+        email: email, 
+        phone: phone, 
+        selected_plan: selectedPlan,
+        selected_date: selectedDate,
+        selected_time: selectedTime,
+        meeting_type: meetingType 
+      }]);
 
     if (error) {
       console.error('Error al guardar en Supabase:', error);
