@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import PageLayout from '../components/PageLayout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { DayPicker } from 'react-day-picker';
@@ -148,7 +149,7 @@ export default function SchedulingPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = {};
     // Valida todos los campos al intentar enviar
@@ -166,17 +167,22 @@ export default function SchedulingPage() {
 
     setIsLoading(true);
 
-    const bookingDetails = {
-      ...formState,
-      date: format(selectedDate, 'PPP', { locale: es }),
-      timeZone: 'America/Bogota',
-    };
-    console.log("Datos a enviar a Supabase:", bookingDetails);
+    // Prepara los datos para Supabase.
+    // 'selectedDate' ya es un objeto Date, que Supabase maneja correctamente.
+    const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
 
-    setTimeout(() => {
+    const { error } = await supabase
+      .from('reuniones')
+      .insert([{ name, email, phone, selectedPlan, selectedDate, selectedTime, meetingType }]);
+
+    if (error) {
+      console.error('Error al guardar en Supabase:', error);
+      alert('Hubo un error al guardar tu solicitud. Por favor, intenta de nuevo.');
+      setIsLoading(false);
+    } else {
       setIsLoading(false);
       navigate('/gracias');
-    }, 2500); // 2.5 segundos de espera
+    }
   };
 
   useEffect(() => {
