@@ -1,4 +1,3 @@
-// Demo en React para Casa Regis - Landing Propuesta Web
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
