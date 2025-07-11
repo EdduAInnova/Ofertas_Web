@@ -6,7 +6,7 @@ export default function Requirement({ icon, title, children }) {
       <div className="text-yellow-400 mt-1">{icon}</div>
       <div>
         <h3 className="font-bold text-yellow-400">{title}</h3>
-        <p className="text-gray-300 text-sm">{children}</p>
+        <p className="text-gray-300 text-sm leading-relaxed">{children}</p>
       </div>
     </div>
   );

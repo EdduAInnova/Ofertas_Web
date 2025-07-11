@@ -1,6 +1,7 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
 import Benefit from '../components/plan/Benefit';
+import AnimatedSection from '../components/AnimatedSection';
 import Requirement from '../components/plan/Requirement';
 import { Feather, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
 
@@ -49,7 +50,7 @@ export default function PlanBasicoPage() {
         <p className="text-xl text-gray-400 mt-2">Tu presencia esencial en internet para empezar a crecer.</p>
       </header>
 
-      <section className="mb-12">
+      <AnimatedSection className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-green-400 to-cyan-400 text-transparent bg-clip-text">¿Qué obtienes con este plan?</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <Benefit title="Diseño Personalizado Básico" color="green">
@@ -71,9 +72,9 @@ export default function PlanBasicoPage() {
             Configuraremos los elementos básicos para que los motores de búsqueda como Google puedan encontrar y entender tu sitio, ayudándote a aparecer en las búsquedas locales.
           </Benefit>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section className="mb-12">
+      <AnimatedSection className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text">Aclaraciones Importantes</h2>
         <div className="space-y-4">
           <Requirement icon={<AlertTriangle size={24} />} title="Hosting y Dominio no incluidos">
@@ -83,9 +84,9 @@ export default function PlanBasicoPage() {
             ¡No te preocupes! Te asesoramos y recomendamos los mejores y más económicos proveedores (como Hostinger, SiteGround, etc.) para que hagas la mejor elección. El proceso es muy sencillo.
           </Requirement>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section className="mb-12">
+      <AnimatedSection className="mb-12">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text">Pasos Para Iniciar</h2>
         <div className="space-y-4">
           <Requirement icon={<Home size={24} />} title="1. Hosting y Dominio Listos">
@@ -98,9 +99,9 @@ export default function PlanBasicoPage() {
             El 50% restante se cancela una vez que el proyecto esté terminado, probado y listo para su lanzamiento. Te lo entregaremos desplegado en tu hosting para que lo revises. Tienes entre 24 y 48 horas para dar el visto bueno antes del lanzamiento oficial.
           </Requirement>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section className="text-center mt-16">
+      <AnimatedSection className="text-center mt-16">
         <div className="bg-green-900/20 border border-green-500/30 p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Básico</h3>
           <p className="text-5xl font-bold my-4 text-green-400">$250 USD</p>
@@ -112,7 +113,7 @@ export default function PlanBasicoPage() {
             Comenzar Ahora (Pagar 50%)
           </button>
         </div>
-      </section>
+      </AnimatedSection>
 
     </PageLayout>
   );
