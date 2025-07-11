@@ -153,7 +153,7 @@ export default function HomePage() {
             />
 
             {/* Superposición oscura sobre la imagen */}
-            <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
+            <div className="absolute inset-0 bg-black/30 rounded-xl"></div>
 
             {/* Logo superpuesto con efecto de neón */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
