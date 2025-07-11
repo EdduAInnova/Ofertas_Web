@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
-import Benefit from '../components/plan/Benefit';
-import Requirement from '../components/plan/Requirement';
+import Benefit from '../components/Plan/Benefit';
+import Requirement from '../components/Plan/Requirement';
 import AnimatedSection from '../components/AnimatedSection';
 import { Gem, CheckCircle, DollarSign, CreditCard } from 'lucide-react';
 

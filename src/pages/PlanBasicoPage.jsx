@@ -1,8 +1,8 @@
 import React from 'react';
 import PageLayout from '../components/PageLayout';
-import Benefit from '../components/plan/Benefit';
+import Benefit from '../components/Plan/Benefit';
 import AnimatedSection from '../components/AnimatedSection';
-import Requirement from '../components/plan/Requirement';
+import Requirement from '../components/Plan/Requirement';
 import { Feather, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
 
 export default function PlanBasicoPage() {
