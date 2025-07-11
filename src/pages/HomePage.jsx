@@ -147,7 +147,7 @@ export default function HomePage() {
           <div className="relative inline-block">
             {/* Imagen de portada */}
             <img
-              src="/casa_regis.png"
+              src="/casa_regis.webp"
               alt="Fachada elegante del aparta suites Casa Regis"
               className="rounded-xl mx-auto shadow-2xl shadow-blue-500/20 w-full max-w-4xl max-h-96 object-cover"
             />
