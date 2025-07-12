@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Check, X, CalendarCheck, Star, Palette, ShieldCheck, Smartphone, Search, BrainCircuit, Feather, Briefcase, Gem, Rocket } from "lucide-react";
 import Footer from "../components/Footer";
+import AnimatedSection from "../components/AnimatedSection";
 
 // --- Datos de la página (integrados para evitar errores de importación) ---
 
@@ -87,7 +88,9 @@ const SectionTitle = ({ children }) => (
 );
 
 const FeatureCard = ({ icon, title, children }) => (
-  <div className="bg-white/5 p-6 rounded-lg border border-white/10 transform transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(192,132,252,0.25)]">
+  <div className="bg-white/5 p-6 rounded-lg border border-white/10 transform transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(192,132,252,0.25)] 
+                contain-layout contain-style will-change-[transform,box-shadow]"
+  >
     <div className="flex items-center gap-4 mb-3">
       {icon}
       <h3 className="font-bold text-xl text-blue-400">{title}</h3>
@@ -106,7 +109,8 @@ const PlanFeature = ({ text, included }) => (
 const PlanCard = ({ plan, isFeatured }) => (
   <div
     style={{ '--glow-color': plan.glowColor }}
-    className={`relative backdrop-blur-xl bg-white/5 border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} hover:shadow-[0_0_25px_rgba(var(--glow-color),0.4)]`}
+    className={`relative backdrop-blur-xl bg-white/5 border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} 
+                hover:shadow-[0_0_25px_rgba(var(--glow-color),0.4)] contain-layout contain-style will-change-[transform,box-shadow]`}
   >
     {isFeatured && (
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
@@ -181,16 +185,16 @@ export default function HomePage() {
           </div>
         </header>
 
-        <section className="mb-24">
+        <AnimatedSection className="mb-24">
           <SectionTitle>¿Qué haremos por Casa Regis?</SectionTitle>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whatWeDoData.map((item) => (
               <FeatureCard key={item.title} icon={item.icon} title={item.title}>{item.description}</FeatureCard>
             ))}
           </div>
-        </section>
+        </AnimatedSection>
 
-        <section className="mb-24">
+        <AnimatedSection className="mb-24">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-green-400 via-cyan-400 to-purple-500 text-transparent bg-clip-text pb-2">
             Nuestros Planes Flexibles
           </h2>
@@ -199,9 +203,9 @@ export default function HomePage() {
               <PlanCard key={plan.title} plan={plan} isFeatured={plan.isFeatured} />
             ))}
           </div>
-        </section>
+        </AnimatedSection>
 
-        <section className="mb-24 text-center max-w-4xl mx-auto">
+        <AnimatedSection className="mb-24 text-center max-w-4xl mx-auto">
           <div className="flex justify-center items-center gap-4 mb-12">
             <Rocket className="w-10 h-10 text-purple-400" />
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text pb-2">
@@ -218,9 +222,9 @@ export default function HomePage() {
             <span className="bg-gray-700 text-gray-200 px-4 py-2 rounded-full">Tailwind CSS</span>
             <span className="bg-gray-700 text-gray-200 px-4 py-2 rounded-full">Inteligencia Artificial</span>
           </div>
-        </section>
+        </AnimatedSection>
 
-        <section className="text-center bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl p-10 border border-white/10">
+        <AnimatedSection className="text-center bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl p-10 border border-white/10">
           <h3 className="text-3xl font-bold mb-4">¿Listo para llevar a Casa Regis al siguiente nivel?</h3>
           <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
             Casa Regis merece un sitio web tan elegante como su arquitectura. Agendemos una reunión para definir el plan ideal para ti.
@@ -231,7 +235,7 @@ export default function HomePage() {
           >
             <CalendarCheck /> Agendar Reunión
           </Link>
-        </section>
+        </AnimatedSection>
 
         <Footer />
 
