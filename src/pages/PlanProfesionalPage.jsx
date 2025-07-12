@@ -3,41 +3,21 @@ import PageLayout from '../components/PageLayout';
 import Benefit from '../components/plan/Benefit';
 import Requirement from '../components/plan/Requirement';
 import AnimatedSection from '../components/AnimatedSection';
-import { Briefcase, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { useEpayco } from '../hooks/useEpayco';
+import { Briefcase, CheckCircle, DollarSign, CreditCard } from 'lucide-react';
 
 export default function PlanProfesionalPage() {
-  const handlePayment = () => {
-    // Verifica que el script de ePayco se haya cargado y esté disponible en la ventana
-    if (window.ePayco) {
-      const handler = window.ePayco.checkout.configure({
-        key: '9a411b6075a8a6222aff5df6631175fa',
-        test: false,
-      });
+  const { isLoading, handlePayment } = useEpayco();
 
-      const data = {
-        // Parámetros de la compra
-        name: "Plan Profesional - Sitio Web",
-        description: "Pago inicial (50%) para el Plan Profesional de desarrollo web.",
-        invoice: `ofertas-web-profesional-${Date.now()}`, // Factura única
-        currency: "usd",
-        amount: "275",
-        tax_base: "275",
-        tax: "0.00",
-        tax_ico: "0.00",
-        country: "co",
-        lang: "es",
-
-        // Abre el checkout en la misma página
-        external: "false",
-
-        // URL a la que volverá el cliente después del pago
-        response: window.location.origin + '/gracias',
-      };
-
-      handler.open(data);
-    } else {
-      alert('La pasarela de pago no está disponible. Por favor, recarga la página e intenta de nuevo.');
-    }
+  const startPayment = () => {
+    handlePayment({
+      name: "Plan Profesional - Sitio Web",
+      description: "Pago inicial (50%) para el Plan Profesional de desarrollo web.",
+      invoicePrefix: "ofertas-web-profesional",
+      currency: "usd",
+      amount: "275",
+    });
   };
 
   return (
@@ -99,15 +79,17 @@ export default function PlanProfesionalPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
+        {isLoading && <LoadingSpinner />}
         <div className="bg-blue-900/20 border border-blue-500/30 p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Profesional</h3>
           <p className="text-5xl font-bold my-4 text-blue-400">$550 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $275 USD</p>
           <button
-            onClick={handlePayment}
-            className={`w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-blue-700 hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)]`}
+            onClick={startPayment}
+            disabled={isLoading}
+            className={`w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-blue-700 hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed`}
           >
-            Comenzar Ahora (Pagar 50%)
+            {isLoading ? 'Procesando...' : 'Comenzar Ahora (Pagar 50%)'}
           </button>
         </div>
       </AnimatedSection>

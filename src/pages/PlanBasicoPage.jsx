@@ -3,41 +3,21 @@ import PageLayout from '../components/PageLayout';
 import Benefit from '../components/plan/Benefit';
 import AnimatedSection from '../components/AnimatedSection';
 import Requirement from '../components/plan/Requirement';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { useEpayco } from '../hooks/useEpayco';
 import { Feather, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
 
 export default function PlanBasicoPage() {
-  const handlePayment = () => {
-    // Verifica que el script de ePayco se haya cargado y esté disponible en la ventana
-    if (window.ePayco) {
-      const handler = window.ePayco.checkout.configure({
-        key: '9a411b6075a8a6222aff5df6631175fa',
-        test: false,
-      });
+  const { isLoading, handlePayment } = useEpayco();
 
-      const data = {
-        // Parámetros de la compra
-        name: "Plan Básico - Sitio Web",
-        description: "Pago inicial (50%) para el Plan Básico de desarrollo web.",
-        invoice: `ofertas-web-basico-${Date.now()}`,
-        currency: "usd",
-        amount: "125",
-        tax_base: "125",
-        tax: "0.00",
-        tax_ico: "0.00",
-        country: "co",
-        lang: "es",
-
-        // Abre el checkout en la misma página
-        external: "false",
-
-        // URL a la que volverá el cliente después del pago
-        response: window.location.origin + '/gracias',
-      };
-
-      handler.open(data);
-    } else {
-      alert('La pasarela de pago no está disponible. Por favor, recarga la página e intenta de nuevo.');
-    }
+  const startPayment = () => {
+    handlePayment({
+      name: "Plan Básico - Sitio Web",
+      description: "Pago inicial (50%) para el Plan Básico de desarrollo web.",
+      invoicePrefix: "ofertas-web-basico",
+      currency: "usd",
+      amount: "125",
+    });
   };
 
   return (
@@ -102,15 +82,17 @@ export default function PlanBasicoPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
+        {isLoading && <LoadingSpinner />}
         <div className="bg-green-900/20 border border-green-500/30 p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Básico</h3>
           <p className="text-5xl font-bold my-4 text-green-400">$250 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $125 USD</p>
           <button
-            onClick={handlePayment}
-            className={`w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-green-700 hover:bg-green-600 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)]`}
+            onClick={startPayment}
+            disabled={isLoading}
+            className={`w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-green-700 hover:bg-green-600 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed`}
           >
-            Comenzar Ahora (Pagar 50%)
+            {isLoading ? 'Procesando...' : 'Comenzar Ahora (Pagar 50%)'}
           </button>
         </div>
       </AnimatedSection>
