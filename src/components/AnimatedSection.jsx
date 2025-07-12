@@ -11,8 +11,8 @@ export default function AnimatedSection({ children, className }) {
   });
 
   const variants = {
-    hidden: { opacity: 0, y: 50 }, // Empieza 50px abajo y transparente
-    visible: { opacity: 1, y: 0 },   // Termina en su posición original y opaco
+    hidden: { opacity: 0, scale: 0.95 }, // Empieza un poco más pequeño y transparente
+    visible: { opacity: 1, scale: 1 },   // Termina en su tamaño original y opaco
   };
 
   return (

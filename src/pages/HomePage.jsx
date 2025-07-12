@@ -109,7 +109,7 @@ const PlanFeature = ({ text, included }) => (
 const PlanCard = ({ plan, isFeatured }) => (
   <div
     style={{ '--glow-color': plan.glowColor }}
-    className={`relative backdrop-blur-xl bg-white/5 border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} 
+    className={`relative bg-white/10 md:bg-white/5 md:backdrop-blur-xl border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} 
                 hover:shadow-[0_0_25px_rgba(var(--glow-color),0.4)] contain-layout contain-style will-change-[transform,box-shadow]`}
   >
     {isFeatured && (
@@ -161,7 +161,7 @@ export default function HomePage() {
 
             {/* Logo superpuesto con efecto de neón */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-slate-900/60 shadow-[0_0_25px_theme(colors.purple.500)] backdrop-blur-sm">
+              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-slate-900/80 md:bg-slate-900/60 shadow-[0_0_25px_theme(colors.purple.500)] md:backdrop-blur-sm">
                 <img 
                   src="/logo.png" 
                   alt="Logo de EdduAInnova" 
