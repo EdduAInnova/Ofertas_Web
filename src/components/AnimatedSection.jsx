@@ -5,9 +5,10 @@ export default function AnimatedSection({ children, className }) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
-    // Le decimos que considere el "viewport" 100px más pequeño desde abajo.
-    // Esto asegura que el usuario DEBE hacer scroll para que la animación se active.
-    margin: "0px 0px -100px 0px"
+    // Hacemos el margen más grande. En pantallas de escritorio altas,
+    // la primera sección puede estar visible al cargar. Un margen más
+    // grande asegura que el usuario DEBE hacer scroll para que se active la animación.
+    margin: "0px 0px -200px 0px"
   });
 
   const variants = {
