@@ -10,7 +10,6 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const PlanBasicoPage = lazy(() => import('./pages/PlanBasicoPage'));
 const PlanProfesionalPage = lazy(() => import('./pages/PlanProfesionalPage'));
 const PlanPremiumPage = lazy(() => import('./pages/PlanPremiumPage'));
-const GraciasPage = lazy(() => import('./pages/GraciasPage'));
 const SchedulingPage = lazy(() => import('./pages/SchedulingPage'));
 const ThankYouPage = lazy(() => import('./pages/ThankYouPage'));
 
