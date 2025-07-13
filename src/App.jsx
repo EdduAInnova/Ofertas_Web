@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import LoadingSpinner from "./components/LoadingSpinner";
-import ThankYouPage from './pages/ThankYouPage';
 
 // Carga diferida (lazy loading) para todas las páginas.
 // Esto mejora drásticamente el rendimiento de la carga inicial.
