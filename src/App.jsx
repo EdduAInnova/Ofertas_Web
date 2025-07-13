@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import LoadingSpinner from "./components/LoadingSpinner";
+import ThankYouPage from './pages/ThankYouPage';
 
 // Carga diferida (lazy loading) para todas las páginas.
 // Esto mejora drásticamente el rendimiento de la carga inicial.
@@ -24,8 +25,7 @@ export default function App() {
           <Route path="/plan/profesional" element={<PlanProfesionalPage />} />
           <Route path="/plan/premium" element={<PlanPremiumPage />} />
           <Route path="/agendar-reunion" element={<SchedulingPage />} />
-          <Route path="/gracias" element={<GraciasPage />} />
-          <Route path="/thank-you" element={<ThankYouPage />} />
+          <Route path="/gracias" element={<ThankYouPage />} />
         </Routes>
       </Suspense>
     </>

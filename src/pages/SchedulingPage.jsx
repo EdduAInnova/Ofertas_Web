@@ -8,6 +8,7 @@ import 'react-day-picker/dist/style.css';
 import { format, isSameDay, addHours, parse } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, Clock, Package, MessageCircle, Video, User, Mail, Phone } from 'lucide-react';
+import useEpayco from '../hooks/useEpayco'; // Asegúrate de que este hook exista
 
 // Estilos para que el calendario coincida con el diseño de la web
 const calendarStyles = `
@@ -83,6 +84,7 @@ const generateTimeSlots = (selectedDate) => {
 export default function SchedulingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { handlePayment } = useEpayco();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formState, setFormState] = useState({
@@ -96,7 +98,11 @@ export default function SchedulingPage() {
   const [errors, setErrors] = useState({});
 
   const timeSlots = useMemo(() => generateTimeSlots(selectedDate), [selectedDate]);
-  const plans = [{ title: 'Básico' }, { title: 'Profesional' }, { title: 'Premium' }];
+  const plans = [
+    { id: 'plan_basico', title: 'Básico', price: 50000, description: 'Plan Básico de IA Power Web' },
+    { id: 'plan_profesional', title: 'Profesional', price: 100000, description: 'Plan Profesional de IA Power Web' },
+    { id: 'plan_premium', title: 'Premium', price: 150000, description: 'Plan Premium de IA Power Web' }
+  ];
 
   const validateField = (name, value) => {
     switch (name) {
@@ -149,10 +155,8 @@ export default function SchedulingPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
     const validationErrors = {};
-    // Valida todos los campos al intentar enviar
     Object.keys(formState).forEach(key => {
       const error = validateField(key, formState[key]);
       if (error) {
@@ -164,34 +168,74 @@ export default function SchedulingPage() {
       setErrors(validationErrors);
       return;
     }
+    return true;
+  };
 
+  // Acción para "Solo Agendar Cita"
+  const handleScheduleOnly = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
     setIsLoading(true);
-
-    // Prepara los datos para Supabase.
-    // 'selectedDate' ya es un objeto Date, que Supabase maneja correctamente.
     const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
 
-    // Los nombres de las claves deben coincidir EXACTAMENTE con las columnas de la base de datos.
-    // Usamos snake_case aquí para que coincida con la tabla 'reuniones'.
-    const { error } = await supabase
-      .from('reuniones')
-      .insert([{ 
-        name: name, 
-        email: email, 
-        phone: phone, 
-        selected_plan: selectedPlan,
-        selected_date: selectedDate,
-        selected_time: selectedTime,
-        meeting_type: meetingType 
+    try {
+      const { error } = await supabase.from('reuniones').insert([{
+          name, email, phone,
+          selected_plan: selectedPlan,
+          selected_date: format(selectedDate, 'yyyy-MM-dd'),
+          selected_time: selectedTime,
+          meeting_type: meetingType,
+          estado_pago: 'consulta' // Estado para citas sin pago
       }]);
 
-    if (error) {
-      console.error('Error al guardar en Supabase:', error);
-      alert('Hubo un error al guardar tu solicitud. Por favor, intenta de nuevo.');
+      if (error) throw error;
+
+      navigate('/gracias', { state: { type: 'consulta' } });
+    } catch (error) {
+      console.error('Error al agendar la consulta:', error);
+      alert('Hubo un error al agendar tu cita. Por favor, intenta de nuevo.');
+    } finally {
       setIsLoading(false);
-    } else {
-      setIsLoading(false);
-      navigate('/gracias');
+    }
+  };
+
+  // Acción para "Agendar y Pagar Plan"
+  const handleScheduleAndPay = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
+    const selectedPlanDetails = plans.find(p => p.title === selectedPlan);
+
+    const refPayco = `IAPOWER-${selectedPlanDetails.id.toUpperCase()}-${Date.now()}`;
+
+    try {
+      const { error: insertError } = await supabase.from('reuniones').insert([{
+          name, email, phone,
+          selected_plan: selectedPlan,
+          selected_date: format(selectedDate, 'yyyy-MM-dd'),
+          selected_time: selectedTime,
+          meeting_type: meetingType,
+          ref_payco: refPayco,
+          estado_pago: 'pendiente'
+      }]);
+
+      if (insertError) throw insertError;
+
+      handlePayment({
+        name: selectedPlanDetails.title,
+        description: selectedPlanDetails.description,
+        invoice: refPayco,
+        amount: selectedPlanDetails.price,
+        name_billing: name,
+        email_billing: email,
+      });
+    } catch (error) {
+      console.error('Error en el proceso de pago:', error);
+      alert('Hubo un error al iniciar el proceso de pago. Por favor, intenta de nuevo.');
+      setIsLoading(false); // Solo si el pago falla antes de redirigir
     }
   };
 
@@ -199,10 +243,10 @@ export default function SchedulingPage() {
     <PageLayout>
       {isLoading && <LoadingSpinner />}
       <style>{calendarStyles}</style>
-      <div className="bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-3xl p-8 mx-auto text-white animate-fade-in">
+      <div className="bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-4xl p-8 mx-auto text-white animate-fade-in">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-400 to-blue-600 text-transparent bg-clip-text">Agenda tu Reunión Inicial</h2>
         
-        <form onSubmit={handleSubmit} noValidate className="space-y-6">
+        <form noValidate className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <div>
               <label htmlFor="name" className="font-semibold mb-1 flex items-center gap-2"><User size={18}/> Nombre Completo</label>
@@ -287,9 +331,14 @@ export default function SchedulingPage() {
             </div>
           </div>
 
-          <button type="submit" className="w-full bg-purple-700 hover:bg-purple-600 px-8 py-3 text-white text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] !mt-8">
-            Enviar Solicitud
-          </button>
+          <div className="flex flex-col md:flex-row gap-4 !mt-10">
+            <button onClick={handleScheduleOnly} disabled={isLoading} className="w-full border-2 border-purple-500 text-purple-400 hover:bg-purple-900/50 px-8 py-3 text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+              {isLoading ? 'Procesando...' : 'Solo Agendar Cita'}
+            </button>
+            <button onClick={handleScheduleAndPay} disabled={isLoading} className="w-full bg-purple-700 hover:bg-purple-600 px-8 py-3 text-white text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed">
+              {isLoading ? 'Procesando...' : 'Agendar y Pagar Plan'}
+            </button>
+          </div>
         </form>
       </div>
     </PageLayout>
