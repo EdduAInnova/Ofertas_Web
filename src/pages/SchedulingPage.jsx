@@ -8,7 +8,7 @@ import 'react-day-picker/dist/style.css';
 import { format, isSameDay, addHours, parse } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, Clock, Package, MessageCircle, Video, User, Mail, Phone } from 'lucide-react';
-import useEpayco from '../hooks/useEpayco'; // Asegúrate de que este hook exista
+import { useEpayco } from '../hooks/useEpayco'; // Corregido: Importación nombrada con {}
 
 // Estilos para que el calendario coincida con el diseño de la web
 const calendarStyles = `
@@ -166,7 +166,7 @@ export default function SchedulingPage() {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return;
+      return false;
     }
     return true;
   };
