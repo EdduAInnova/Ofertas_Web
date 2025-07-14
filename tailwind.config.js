@@ -17,5 +17,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Plugin oficial para estilizar elementos de formulario como checkboxes.
+    require('@tailwindcss/forms'),
+  ],
 }

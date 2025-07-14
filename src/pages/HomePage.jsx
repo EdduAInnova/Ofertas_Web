@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, X, CalendarCheck, Star, Palette, ShieldCheck, Smartphone, Search, BrainCircuit, Feather, Briefcase, Gem, Rocket } from "lucide-react";
+import { Check, X, CalendarCheck, Star, Palette, ShieldCheck, Smartphone, Search, BrainCircuit, Feather, Briefcase, Gem, Rocket, HelpCircle, Sparkles, Layers } from "lucide-react";
 import Footer from "../components/Footer";
 import AnimatedSection from "../components/AnimatedSection";
 import { plans as plansData } from "../data/plansData.jsx"; // Importar la fuente única de verdad
+import FaqItem from "../components/FaqItem"; // Importamos el nuevo componente
 
 // --- Datos de la página (integrados para evitar errores de importación) ---
 const whatWeDoData = [
@@ -15,12 +16,38 @@ const whatWeDoData = [
   { icon: <BrainCircuit className="w-8 h-8 text-purple-500" />, title: "Toque de IA", description: "Integraremos herramientas inteligentes como chatbots o respuestas automáticas para mejorar la atención al cliente 24/7." },
 ];
 
+const faqData = [
+  {
+    question: "¿Qué necesito para empezar?",
+    answer: "Depende del plan. Para el Básico, necesitas tu hosting y dominio. Para el Profesional y Premium, ¡nosotros nos encargamos de todo por el primer año! Solo necesitamos tu logo, fotos y la información de tu hotel."
+  },
+  {
+    question: "¿En cuánto tiempo estará lista mi página web?",
+    answer: "El Plan Básico suele tomar entre 7-10 días, el Profesional entre 15-20 días, y el Premium alrededor de 30 días. Todo depende de qué tan rápido nos entregues el contenido (fotos, textos, etc.)."
+  },
+  {
+    question: "¿Puedo editar la página yo mismo después?",
+    answer: "¡Sí! Los planes Profesional y Premium incluyen un panel de gestión (CMS) muy fácil de usar y una capacitación para que puedas cambiar textos e imágenes cuando quieras."
+  },
+  {
+    question: "¿Qué pasa después del primer año con el hosting y dominio?",
+    answer: "En los planes que lo incluyen, la renovación anual a partir del segundo año corre por tu cuenta. Es un proceso muy sencillo y te guiaremos para que lo hagas sin problemas. Los costos son bastante económicos."
+  },
+  {
+    question: "¿El pago es seguro?",
+    answer: "Totalmente. Usamos ePayco, una de las pasarelas de pago más seguras y reconocidas de Latinoamérica. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta."
+  }
+];
+
 // --- Componentes Reutilizables ---
 
-const SectionTitle = ({ children }) => (
-  <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text pb-2">
-    {children}
-  </h2>
+const SectionTitle = ({ icon, children }) => (
+  <div className="flex justify-center items-center gap-4 mb-12">
+    {icon}
+    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text pb-2">
+      {children}
+    </h2>
+  </div>
 );
 
 const FeatureCard = ({ icon, title, children }) => (
@@ -122,7 +149,9 @@ export default function HomePage() {
         </header>
 
         <AnimatedSection className="mb-24">
-          <SectionTitle>¿Qué haremos por Casa Regis?</SectionTitle>
+          <SectionTitle icon={<Sparkles className="w-10 h-10 text-purple-400" />}>
+            ¿Qué haremos por Casa Regis?
+          </SectionTitle>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whatWeDoData.map((item) => (
               <FeatureCard key={item.title} icon={item.icon} title={item.title}>{item.description}</FeatureCard>
@@ -131,9 +160,9 @@ export default function HomePage() {
         </AnimatedSection>
 
         <AnimatedSection className="mb-24">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-green-400 via-cyan-400 to-purple-500 text-transparent bg-clip-text pb-2">
+          <SectionTitle icon={<Layers className="w-10 h-10 text-purple-400" />}>
             Nuestros Planes Flexibles
-          </h2>
+          </SectionTitle>
           <div className="grid lg:grid-cols-3 gap-8 items-stretch">
             {plansData.map((plan) => (
               <PlanCard key={plan.title} plan={plan} isFeatured={plan.isFeatured} />
@@ -141,13 +170,19 @@ export default function HomePage() {
           </div>
         </AnimatedSection>
 
-        <AnimatedSection className="mb-24 text-center max-w-4xl mx-auto">
-          <div className="flex justify-center items-center gap-4 mb-12">
-            <Rocket className="w-10 h-10 text-purple-400" />
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text pb-2">
-              Nuestra Tecnología
-            </h2>
+        <AnimatedSection className="mb-24 max-w-4xl mx-auto">
+          <SectionTitle icon={<HelpCircle className="w-10 h-10 text-purple-400" />}>
+            Preguntas Frecuentes
+          </SectionTitle>
+          <div className="space-y-2">
+            {faqData.map((faq, index) => <FaqItem key={index} question={faq.question} answer={faq.answer} />)}
           </div>
+        </AnimatedSection>
+
+        <AnimatedSection className="mb-24 text-center max-w-4xl mx-auto">
+          <SectionTitle icon={<Rocket className="w-10 h-10 text-purple-400" />}>
+            Nuestra Tecnología
+          </SectionTitle>
           <p className="text-lg text-gray-300 mb-8">
             No necesitas entender los nombres, solo saber que tendrás una web robusta, moderna y 100% optimizada con la misma tecnología que usan gigantes como Netflix, LinkedIn y Uber.
           </p>

@@ -11,6 +11,9 @@ export const plans = [
     totalPriceUSD: 250,
     buttonBg: "bg-green-700 hover:bg-green-600",
     color: "text-green-600",
+    borderColor: "border-green-500",
+    textColor: "text-green-600",
+    hoverBg: "hover:bg-green-900/50",
     glowColor: "22, 163, 74", // green-600
     description: 'Pago inicial (50%) para el Plan Básico de desarrollo web.',
     features: [
@@ -33,6 +36,9 @@ export const plans = [
     totalPriceUSD: 550,
     buttonBg: "bg-blue-700 hover:bg-blue-600",
     color: "text-blue-600",
+    borderColor: "border-blue-500",
+    textColor: "text-blue-600",
+    hoverBg: "hover:bg-blue-900/50",
     isFeatured: true,
     glowColor: "37, 99, 235", // blue-600
     description: 'Pago inicial (50%) para el Plan Profesional de desarrollo web.',
@@ -56,6 +62,9 @@ export const plans = [
     totalPriceUSD: 950,
     buttonBg: "bg-purple-700 hover:bg-purple-600",
     color: "text-purple-600",
+    borderColor: "border-purple-500",
+    textColor: "text-purple-600",
+    hoverBg: "hover:bg-purple-900/50",
     glowColor: "147, 51, 234", // purple-600
     description: 'Pago inicial (50%) para el Plan Premium de desarrollo web.',
     features: [

@@ -90,18 +90,16 @@ export default function SchedulingPage() {
   // 'isLoading' es para guardar en Supabase, 'isPaymentLoading' es para ePayco.
   const { isLoading: isPaymentLoading, handlePayment } = useEpayco();
   const [isPlanFixed, setIsPlanFixed] = useState(false);
+  const [dynamicStyles, setDynamicStyles] = useState({
+    buttonBg: 'bg-gray-600',
+    borderColor: 'border-purple-500',
+    textColor: 'text-purple-600',
+    hoverBg: 'hover:bg-purple-900/50',
+    shadow: 'hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]',
+    disabledBg: 'disabled:bg-gray-600'
+  });
 
-  // --- ¡LA MAGIA OCURRE AQUÍ! ---
-  // Este efecto se ejecuta cuando la página carga.
-  // Si venimos de una página de plan (usando el 'state' del Link),
-  // pre-selecciona ese plan en el formulario.
-  useEffect(() => {
-    if (location.state?.selectedPlan) {
-      setFormState(prev => ({ ...prev, selectedPlan: location.state.selectedPlan }));
-      setIsPlanFixed(true); // Bloqueamos la selección del plan
-    }
-  }, [location.state]);
-
+  // Declaración de estados principales. Es crucial que estén antes de los `useEffect` que los usan.
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formState, setFormState] = useState({
     name: '',
@@ -114,6 +112,44 @@ export default function SchedulingPage() {
     termsAccepted: false,
   });
   const [errors, setErrors] = useState({});
+
+
+  // --- ¡LA MAGIA OCURRE AQUÍ! ---
+  // Este efecto se ejecuta cuando la página carga.
+  // Si venimos de una página de plan (usando el 'state' del Link),
+  // pre-selecciona ese plan en el formulario.
+  useEffect(() => {
+    if (location.state?.selectedPlan) {
+      setFormState(prev => ({ ...prev, selectedPlan: location.state.selectedPlan }));
+      setIsPlanFixed(true); // Bloqueamos la selección del plan
+    }
+  }, [location.state]);
+
+  // Efecto para actualizar los estilos dinámicos cuando cambia el plan
+  useEffect(() => {
+    const plan = plans.find(p => p.title === formState.selectedPlan);
+    if (plan) {
+      setDynamicStyles({
+        buttonBg: plan.buttonBg,
+        borderColor: plan.borderColor,
+        textColor: plan.textColor,
+        hoverBg: plan.hoverBg,
+        shadow: `hover:shadow-[0_0_15px_rgba(${plan.glowColor},0.5)]`,
+        disabledBg: `disabled:bg-gray-600`
+      });
+    }
+  }, [formState.selectedPlan]);
+
+  // --- Lógica para mostrar el monto a pagar dinámicamente ---
+  const selectedPlanDetails = useMemo(() => {
+    if (!formState.selectedPlan) return null;
+    return plans.find(p => p.title === formState.selectedPlan);
+  }, [formState.selectedPlan]);
+
+  const paymentAmount = useMemo(() => {
+    if (!selectedPlanDetails) return null;
+    return selectedPlanDetails.totalPriceUSD / 2;
+  }, [selectedPlanDetails]);
 
   const timeSlots = useMemo(() => generateTimeSlots(selectedDate), [selectedDate]);
 
@@ -235,17 +271,14 @@ export default function SchedulingPage() {
     setIsLoading(true);
     const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
     
-    // Buscamos los detalles del plan en nuestra fuente de verdad
-    const selectedPlanDetails = plans.find(p => p.title === selectedPlan);
-
-    if (!selectedPlanDetails) {
+    // Usamos los detalles del plan calculados previamente
+    if (!selectedPlanDetails || !paymentAmount) {
       alert('Error: No se pudo encontrar el plan seleccionado. Por favor, recarga la página.');
       setIsLoading(false);
       return;
     }
 
     const refPayco = `IAPOWER-${selectedPlanDetails.id.toUpperCase()}-${Date.now()}`;
-    const paymentAmount = selectedPlanDetails.totalPriceUSD / 2; // Calculamos el 50%
 
     try {
       const { error: insertError } = await supabase.from('reuniones').insert([{
@@ -260,12 +293,15 @@ export default function SchedulingPage() {
 
       if (insertError) throw insertError;
 
+      // --- Pre-llenado de datos para ePayco ---
+      // Aquí enviamos la información a ePayco para que el usuario
+      // vea el formulario de pago con su email y el monto ya listos.
       handlePayment({
         name: `Pago Inicial - ${selectedPlanDetails.title}`,
         description: selectedPlanDetails.description,
         invoice: refPayco,
         currency: "usd",
-        amount: paymentAmount.toString(), // ePayco espera el monto como texto
+        amount: paymentAmount.toString(), // El 50% del total, convertido a texto
         name_billing: name,
         email_billing: email,
       });
@@ -278,7 +314,7 @@ export default function SchedulingPage() {
 
   return (
     <PageLayout>
-      {(isLoading || isPaymentLoading) && <LoadingSpinner />}
+      {(isLoading || isPaymentLoading) && <LoadingSpinner colorClass={dynamicStyles.textColor} />}
       <style>{calendarStyles}</style>
       <div className="bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-4xl p-8 mx-auto text-white animate-fade-in">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-400 to-blue-600 text-transparent bg-clip-text">Agenda tu Reunión Inicial</h2>
@@ -372,7 +408,7 @@ export default function SchedulingPage() {
           {/* Sección de Políticas y Términos */}
           <div className="space-y-3 !mt-8">
             <label className="flex items-start gap-3 text-gray-300 cursor-pointer">
-              <input type="checkbox" name="privacyAccepted" checked={formState.privacyAccepted} onChange={handleChange} className="mt-1 h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 shrink-0" />
+              <input type="checkbox" name="privacyAccepted" checked={formState.privacyAccepted} onChange={handleChange} className={`mt-1 h-4 w-4 rounded border-gray-400 focus:ring-offset-0 focus:ring-2 shrink-0 ${dynamicStyles.textColor} focus:${dynamicStyles.textColor}`} />
               <span>
                 He leído y acepto la <Link to="/politica-de-privacidad" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Política de Privacidad</Link>.
               </span>
@@ -380,7 +416,7 @@ export default function SchedulingPage() {
             {errors.privacyAccepted && <p className="text-red-500 text-xs -mt-2 ml-7">{errors.privacyAccepted}</p>}
 
             <label className="flex items-start gap-3 text-gray-300 cursor-pointer">
-              <input type="checkbox" name="termsAccepted" checked={formState.termsAccepted} onChange={handleChange} className="mt-1 h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 shrink-0" />
+              <input type="checkbox" name="termsAccepted" checked={formState.termsAccepted} onChange={handleChange} className={`mt-1 h-4 w-4 rounded border-gray-400 focus:ring-offset-0 focus:ring-2 shrink-0 ${dynamicStyles.textColor} focus:${dynamicStyles.textColor}`} />
               <span>
                 He leído y acepto los <Link to="/terminos-y-condiciones" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Términos y Condiciones</Link> del servicio.
               </span>
@@ -388,13 +424,22 @@ export default function SchedulingPage() {
             {errors.termsAccepted && <p className="text-red-500 text-xs -mt-2 ml-7">{errors.termsAccepted}</p>}
           </div>
 
-          <div className="flex flex-col md:flex-row gap-4 !mt-10">
-            <button onClick={handleScheduleOnly} disabled={isLoading || isPaymentLoading} className="w-full border-2 border-purple-500 text-purple-400 hover:bg-purple-900/50 px-8 py-3 text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-              {(isLoading || isPaymentLoading) ? 'Procesando...' : 'Solo Agendar Cita'}
-            </button>
-            <button onClick={handleScheduleAndPay} disabled={isLoading || isPaymentLoading} className="w-full bg-purple-700 hover:bg-purple-600 px-8 py-3 text-white text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed">
-              {(isLoading || isPaymentLoading) ? 'Procesando...' : 'Agendar y Pagar Plan'}
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 !mt-10">
+            <div className="flex flex-col items-center">
+              <button onClick={handleScheduleOnly} disabled={isLoading || isPaymentLoading} className={`w-full border-2 ${dynamicStyles.borderColor} ${dynamicStyles.textColor} ${dynamicStyles.hoverBg} px-8 py-3 text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}>
+                {(isLoading || isPaymentLoading) ? 'Procesando...' : 'Solo Agendar Cita'}
+              </button>
+            </div>
+            <div className="flex flex-col items-center">
+              <button onClick={handleScheduleAndPay} disabled={isLoading || isPaymentLoading || !formState.selectedPlan} className={`w-full px-8 py-3 text-white text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 ${dynamicStyles.buttonBg} ${dynamicStyles.shadow} ${dynamicStyles.disabledBg} disabled:cursor-not-allowed disabled:shadow-none`}>
+                {(isLoading || isPaymentLoading) ? 'Procesando...' : 'Agendar y Pagar Plan'}
+              </button>
+              {paymentAmount !== null && formState.selectedPlan && (
+                <p className="text-center text-sm text-gray-400 mt-2">
+                  Se realizará un pago inicial de <strong>${paymentAmount} USD</strong> (50% del total).
+                </p>
+              )}
+            </div>
           </div>
         </form>
       </div>
