@@ -1,24 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import Benefit from '../components/plan/Benefit';
 import Requirement from '../components/plan/Requirement';
 import AnimatedSection from '../components/AnimatedSection';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useEpayco } from '../hooks/useEpayco';
 import { Gem, CheckCircle, DollarSign, CreditCard } from 'lucide-react';
 
 export default function PlanPremiumPage() {
-  const { isLoading, handlePayment } = useEpayco();
-
-  const startPayment = () => {
-    handlePayment({
-      name: "Plan Premium - Sitio Web",
-      description: "Pago inicial (50%) para el Plan Premium de desarrollo web.",
-      invoicePrefix: "ofertas-web-premium",
-      currency: "usd",
-      amount: "475",
-    });
-  };
 
   return (
     <PageLayout>
@@ -76,18 +64,17 @@ export default function PlanPremiumPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
-        {isLoading && <LoadingSpinner />}
         <div className="bg-purple-900/20 border border-purple-500/30 p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Premium</h3>
           <p className="text-5xl font-bold my-4 text-purple-400">$950 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $475 USD</p>
-          <button
-            onClick={startPayment}
-            disabled={isLoading}
-            className={`w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-purple-700 hover:bg-purple-600 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed`}
+          <Link
+            to="/agendar-reunion"
+            state={{ selectedPlan: 'Premium' }}
+            className="w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-purple-700 hover:bg-purple-600 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]"
           >
-            {isLoading ? 'Procesando...' : 'Comenzar Ahora (Pagar 50%)'}
-          </button>
+            Comenzar Ahora
+          </Link>
         </div>
       </AnimatedSection>
 

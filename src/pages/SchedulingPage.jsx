@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PageLayout from '../components/PageLayout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -8,7 +8,8 @@ import 'react-day-picker/dist/style.css';
 import { format, isSameDay, addHours, parse } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, Clock, Package, MessageCircle, Video, User, Mail, Phone } from 'lucide-react';
-import { useEpayco } from '../hooks/useEpayco'; // Corregido: Importación nombrada con {}
+import { useEpayco } from '../hooks/useEpayco';
+import { plans } from '../data/plansData.jsx'; // Importamos la fuente de verdad de los planes
 
 // Estilos para que el calendario coincida con el diseño de la web
 const calendarStyles = `
@@ -83,8 +84,23 @@ const generateTimeSlots = (selectedDate) => {
 
 export default function SchedulingPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
-  const { handlePayment } = useEpayco();
+  // Renombramos 'isLoading' del hook para evitar conflictos con el 'isLoading' de la página.
+  // 'isLoading' es para guardar en Supabase, 'isPaymentLoading' es para ePayco.
+  const { isLoading: isPaymentLoading, handlePayment } = useEpayco();
+  const [isPlanFixed, setIsPlanFixed] = useState(false);
+
+  // --- ¡LA MAGIA OCURRE AQUÍ! ---
+  // Este efecto se ejecuta cuando la página carga.
+  // Si venimos de una página de plan (usando el 'state' del Link),
+  // pre-selecciona ese plan en el formulario.
+  useEffect(() => {
+    if (location.state?.selectedPlan) {
+      setFormState(prev => ({ ...prev, selectedPlan: location.state.selectedPlan }));
+      setIsPlanFixed(true); // Bloqueamos la selección del plan
+    }
+  }, [location.state]);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formState, setFormState] = useState({
@@ -93,16 +109,13 @@ export default function SchedulingPage() {
     phone: '',
     selectedPlan: '',
     selectedTime: '',
-    meetingType: 'llamada',
+    meetingType: '', // No hay preselección
+    privacyAccepted: false,
+    termsAccepted: false,
   });
   const [errors, setErrors] = useState({});
 
   const timeSlots = useMemo(() => generateTimeSlots(selectedDate), [selectedDate]);
-  const plans = [
-    { id: 'plan_basico', title: 'Básico', price: 50000, description: 'Plan Básico de IA Power Web' },
-    { id: 'plan_profesional', title: 'Profesional', price: 100000, description: 'Plan Profesional de IA Power Web' },
-    { id: 'plan_premium', title: 'Premium', price: 150000, description: 'Plan Premium de IA Power Web' }
-  ];
 
   const validateField = (name, value) => {
     switch (name) {
@@ -124,6 +137,15 @@ export default function SchedulingPage() {
       case 'selectedTime':
         if (!value) return 'Debes seleccionar una hora.';
         break;
+      case 'meetingType':
+        if (!value) return 'Debes seleccionar un tipo de reunión.';
+        break;
+      case 'privacyAccepted':
+        if (!value) return 'Debes aceptar la política de privacidad.';
+        break;
+      case 'termsAccepted':
+        if (!value) return 'Debes aceptar los términos y condiciones.';
+        break;
       default:
         break;
     }
@@ -138,7 +160,12 @@ export default function SchedulingPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState(prev => ({ ...prev, [name]: value }));
+    // Manejo especial para checkboxes
+    const isCheckbox = e.target.type === 'checkbox';
+    setFormState(prev => ({
+      ...prev,
+      [name]: isCheckbox ? e.target.checked : value
+    }));
     // Limpia el error cuando el usuario empieza a corregir
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
@@ -207,9 +234,18 @@ export default function SchedulingPage() {
 
     setIsLoading(true);
     const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
+    
+    // Buscamos los detalles del plan en nuestra fuente de verdad
     const selectedPlanDetails = plans.find(p => p.title === selectedPlan);
 
+    if (!selectedPlanDetails) {
+      alert('Error: No se pudo encontrar el plan seleccionado. Por favor, recarga la página.');
+      setIsLoading(false);
+      return;
+    }
+
     const refPayco = `IAPOWER-${selectedPlanDetails.id.toUpperCase()}-${Date.now()}`;
+    const paymentAmount = selectedPlanDetails.totalPriceUSD / 2; // Calculamos el 50%
 
     try {
       const { error: insertError } = await supabase.from('reuniones').insert([{
@@ -225,10 +261,11 @@ export default function SchedulingPage() {
       if (insertError) throw insertError;
 
       handlePayment({
-        name: selectedPlanDetails.title,
+        name: `Pago Inicial - ${selectedPlanDetails.title}`,
         description: selectedPlanDetails.description,
         invoice: refPayco,
-        amount: selectedPlanDetails.price,
+        currency: "usd",
+        amount: paymentAmount.toString(), // ePayco espera el monto como texto
         name_billing: name,
         email_billing: email,
       });
@@ -241,7 +278,7 @@ export default function SchedulingPage() {
 
   return (
     <PageLayout>
-      {isLoading && <LoadingSpinner />}
+      {(isLoading || isPaymentLoading) && <LoadingSpinner />}
       <style>{calendarStyles}</style>
       <div className="bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-4xl p-8 mx-auto text-white animate-fade-in">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-400 to-blue-600 text-transparent bg-clip-text">Agenda tu Reunión Inicial</h2>
@@ -265,7 +302,7 @@ export default function SchedulingPage() {
             </div>
             <div>
               <label htmlFor="selectedPlan" className="font-semibold mb-1 flex items-center gap-2"><Package size={18}/> Plan de Interés</label>
-              <select id="selectedPlan" name="selectedPlan" required value={formState.selectedPlan} onChange={handleChange} onBlur={handleBlur} className={`w-full bg-gray-800 border rounded-md p-2 focus:ring-purple-500 focus:border-purple-500 ${errors.selectedPlan ? 'border-red-500' : 'border-gray-600'}`}>
+              <select id="selectedPlan" name="selectedPlan" required value={formState.selectedPlan} onChange={handleChange} onBlur={handleBlur} disabled={isPlanFixed} className={`w-full bg-gray-800 border rounded-md p-2 focus:ring-purple-500 focus:border-purple-500 ${errors.selectedPlan ? 'border-red-500' : 'border-gray-600'} ${isPlanFixed ? 'bg-gray-700 text-gray-400 cursor-not-allowed' : ''}`}>
                 <option value="" disabled>Selecciona un plan</option>
                 {plans.map(plan => <option key={plan.title} value={plan.title}>{plan.title}</option>)}
               </select>
@@ -329,14 +366,34 @@ export default function SchedulingPage() {
                 <Video size={20} /> Videollamada
               </label>
             </div>
+            {errors.meetingType && <p className="text-red-500 text-xs mt-2 text-center">{errors.meetingType}</p>}
+          </div>
+
+          {/* Sección de Políticas y Términos */}
+          <div className="space-y-3 !mt-8">
+            <label className="flex items-start gap-3 text-gray-300 cursor-pointer">
+              <input type="checkbox" name="privacyAccepted" checked={formState.privacyAccepted} onChange={handleChange} className="mt-1 h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 shrink-0" />
+              <span>
+                He leído y acepto la <Link to="/politica-de-privacidad" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Política de Privacidad</Link>.
+              </span>
+            </label>
+            {errors.privacyAccepted && <p className="text-red-500 text-xs -mt-2 ml-7">{errors.privacyAccepted}</p>}
+
+            <label className="flex items-start gap-3 text-gray-300 cursor-pointer">
+              <input type="checkbox" name="termsAccepted" checked={formState.termsAccepted} onChange={handleChange} className="mt-1 h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 shrink-0" />
+              <span>
+                He leído y acepto los <Link to="/terminos-y-condiciones" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Términos y Condiciones</Link> del servicio.
+              </span>
+            </label>
+            {errors.termsAccepted && <p className="text-red-500 text-xs -mt-2 ml-7">{errors.termsAccepted}</p>}
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 !mt-10">
-            <button onClick={handleScheduleOnly} disabled={isLoading} className="w-full border-2 border-purple-500 text-purple-400 hover:bg-purple-900/50 px-8 py-3 text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-              {isLoading ? 'Procesando...' : 'Solo Agendar Cita'}
+            <button onClick={handleScheduleOnly} disabled={isLoading || isPaymentLoading} className="w-full border-2 border-purple-500 text-purple-400 hover:bg-purple-900/50 px-8 py-3 text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+              {(isLoading || isPaymentLoading) ? 'Procesando...' : 'Solo Agendar Cita'}
             </button>
-            <button onClick={handleScheduleAndPay} disabled={isLoading} className="w-full bg-purple-700 hover:bg-purple-600 px-8 py-3 text-white text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed">
-              {isLoading ? 'Procesando...' : 'Agendar y Pagar Plan'}
+            <button onClick={handleScheduleAndPay} disabled={isLoading || isPaymentLoading} className="w-full bg-purple-700 hover:bg-purple-600 px-8 py-3 text-white text-lg rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed">
+              {(isLoading || isPaymentLoading) ? 'Procesando...' : 'Agendar y Pagar Plan'}
             </button>
           </div>
         </form>

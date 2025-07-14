@@ -11,6 +11,10 @@ const PlanProfesionalPage = lazy(() => import('./pages/PlanProfesionalPage'));
 const PlanPremiumPage = lazy(() => import('./pages/PlanPremiumPage'));
 const SchedulingPage = lazy(() => import('./pages/SchedulingPage'));
 const ThankYouPage = lazy(() => import('./pages/ThankYouPage'));
+// Añadimos la importación de las páginas legales
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
+
 
 export default function App() {
   return (
@@ -24,6 +28,9 @@ export default function App() {
           <Route path="/plan/premium" element={<PlanPremiumPage />} />
           <Route path="/agendar-reunion" element={<SchedulingPage />} />
           <Route path="/gracias" element={<ThankYouPage />} />
+          {/* Añadimos las rutas para que sean accesibles */}
+          <Route path="/politica-de-privacidad" element={<PrivacyPolicyPage />} />
+          <Route path="/terminos-y-condiciones" element={<TermsAndConditionsPage />} />
         </Routes>
       </Suspense>
     </>

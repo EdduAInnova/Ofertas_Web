@@ -1,24 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import Benefit from '../components/plan/Benefit';
 import AnimatedSection from '../components/AnimatedSection';
 import Requirement from '../components/plan/Requirement';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useEpayco } from '../hooks/useEpayco';
 import { Feather, CheckCircle, AlertTriangle, DollarSign, CreditCard, Home } from 'lucide-react';
 
 export default function PlanBasicoPage() {
-  const { isLoading, handlePayment } = useEpayco();
-
-  const startPayment = () => {
-    handlePayment({
-      name: "Plan Básico - Sitio Web",
-      description: "Pago inicial (50%) para el Plan Básico de desarrollo web.",
-      invoicePrefix: "ofertas-web-basico",
-      currency: "usd",
-      amount: "125",
-    });
-  };
 
   return (
     <PageLayout>
@@ -82,18 +70,17 @@ export default function PlanBasicoPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
-        {isLoading && <LoadingSpinner />}
         <div className="bg-green-900/20 border border-green-500/30 p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Básico</h3>
           <p className="text-5xl font-bold my-4 text-green-400">$250 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $125 USD</p>
-          <button
-            onClick={startPayment}
-            disabled={isLoading}
-            className={`w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-green-700 hover:bg-green-600 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)] disabled:bg-gray-500 disabled:cursor-not-allowed`}
+          <Link
+            to="/agendar-reunion"
+            state={{ selectedPlan: 'Básico' }}
+            className="w-full max-w-md mx-auto text-center block px-6 py-4 text-white text-xl rounded-full font-semibold transition-all duration-300 hover:scale-105 bg-green-700 hover:bg-green-600 hover:shadow-[0_0_15px_rgba(34,197,94,0.5)]"
           >
-            {isLoading ? 'Procesando...' : 'Comenzar Ahora (Pagar 50%)'}
-          </button>
+            Comenzar Ahora
+          </Link>
         </div>
       </AnimatedSection>
 

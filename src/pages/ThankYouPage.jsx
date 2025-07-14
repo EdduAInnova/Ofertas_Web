@@ -65,20 +65,20 @@ const ThankYouPage = () => {
   }, [location.state, searchParams]);
 
   const statusConfig = {
-    consulta: { icon: <CheckCircle size={64} className="text-cyan-400" />, color: 'cyan' },
-    exito: { icon: <CheckCircle size={64} className="text-green-400" />, color: 'green' },
-    rechazo: { icon: <XCircle size={64} className="text-red-400" />, color: 'red' },
-    pendiente: { icon: <Clock size={64} className="text-yellow-400" />, color: 'yellow' },
-    error: { icon: <AlertCircle size={64} className="text-gray-400" />, color: 'gray' },
-    loading: { icon: null, color: 'gray' },
+    consulta: { icon: <CheckCircle size={64} className="text-cyan-400" />, borderColor: 'border-cyan-500/30' },
+    exito: { icon: <CheckCircle size={64} className="text-green-400" />, borderColor: 'border-green-500/30' },
+    rechazo: { icon: <XCircle size={64} className="text-red-400" />, borderColor: 'border-red-500/30' },
+    pendiente: { icon: <Clock size={64} className="text-yellow-400" />, borderColor: 'border-yellow-500/30' },
+    error: { icon: <AlertCircle size={64} className="text-gray-400" />, borderColor: 'border-gray-500/30' },
+    loading: { icon: null, borderColor: 'border-transparent' },
   };
 
-  const { icon, color } = statusConfig[status];
+  const { icon, borderColor } = statusConfig[status];
 
   return (
     <PageLayout>
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className={`bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-${color}-500/30 rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-12 mx-auto text-white text-center animate-fade-in`}>
+        <div className={`bg-gradient-to-bl from-[#101216] to-[#1c355b] border ${borderColor} rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-12 mx-auto text-white text-center animate-fade-in`}>
           {status !== 'loading' && (
             <>
               <div className="mb-6 flex justify-center">{icon}</div>
