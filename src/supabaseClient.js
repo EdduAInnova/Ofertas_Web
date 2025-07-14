@@ -1,10 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Es importante usar variables de entorno por seguridad
-// Estas se cargarán desde tu archivo .env.local
-// Usamos process.env que es el estándar para Vercel y Next.js
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Lee las variables de entorno específicas de Vite desde el archivo .env.local
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Crea y exporta el cliente de Supabase
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseKey);
+

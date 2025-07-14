@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
-// CORRECCIÓN 1: Se usa 'export const' para que sea una exportación nombrada
-// y coincida con como se importa en todas las páginas.
+/**
+ * Hook personalizado para gestionar la integración con la pasarela de pago ePayco.
+ * Carga el script de ePayco y proporciona una función para iniciar el checkout.
+ */
 export const useEpayco = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -12,16 +14,19 @@ export const useEpayco = () => {
     document.body.appendChild(script);
 
     return () => {
-      // Limpia el script cuando el componente se desmonta
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
     };
   }, []);
 
-  const handlePayment = (paymentData) => {
+  /**
+   * Inicia el proceso de pago abriendo el modal de ePayco.
+   * @param {object} options - Datos necesarios para la transacción.
+   */
+  const handlePayment = (options) => {
     if (!window.ePayco) {
-      console.error("ePayco script no está cargado todavía.");
+      console.error("El script de ePayco no está cargado todavía.");
       alert("La pasarela de pago no está lista, por favor espera un momento y vuelve a intentarlo.");
       return;
     }
@@ -29,24 +34,20 @@ export const useEpayco = () => {
     setIsLoading(true);
 
     const handler = window.ePayco.checkout.configure({
-      key: process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY,
-      test: true, // ¡IMPORTANTE! Poner en 'false' para producción
+      // Lee la llave PÚBLICA desde las variables de entorno de Vite.
+      key: import.meta.env.VITE_EPAYCO_PUBLIC_KEY,
+      // ¡IMPORTANTE! Poner en `false` para aceptar pagos REALES.
+      test: false,
     });
 
     const data = {
-      ...paymentData,
-      
-      // CORRECCIÓN 2: Usamos el checkout estándar ('true'). Es más estable y evita
-      // los errores que veías en la consola. Redirige a una página de ePayco.
+      ...options, // Pasamos todas las opciones recibidas (name, description, amount, etc.)
       external: 'false', // Usamos el checkout "On-page" que se integra en la web.
-
-      // URL a la que ePayco redirige al usuario tras el pago
-      response: `${window.location.origin}/gracias`,
-      
-      // URL para la confirmación servidor a servidor (nuestra API)
-      confirmation: `${window.location.origin}/api/epayco-confirmation`,
-
+      response: `${window.location.origin}/gracias`, // URL de redirección post-pago.
       lang: 'es',
+      onClose: () => {
+        setIsLoading(false); // Detiene la carga si el usuario cierra el modal.
+      }
     };
 
     handler.open(data);
@@ -54,3 +55,4 @@ export const useEpayco = () => {
 
   return { isLoading, handlePayment };
 };
+
