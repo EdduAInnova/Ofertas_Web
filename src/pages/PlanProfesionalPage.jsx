@@ -67,9 +67,9 @@ export default function PlanProfesionalPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
-        <div className="bg-blue-900/20 border border-blue-500/30 p-8 rounded-2xl">
+        <div className="bg-blue-900/20 border border-blue-500/30 p-6 sm:p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Profesional</h3>
-          <p className="text-5xl font-bold my-4 text-blue-400">$550 USD</p>
+          <p className="text-4xl sm:text-5xl font-bold my-4 text-blue-400">$550 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $275 USD</p>
           <Link
             to="/agendar-reunion"
