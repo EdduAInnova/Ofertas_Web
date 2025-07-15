@@ -70,9 +70,9 @@ export default function PlanBasicoPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
-        <div className="bg-green-900/20 border border-green-500/30 p-8 rounded-2xl">
+        <div className="bg-green-900/20 border border-green-500/30 p-6 sm:p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Básico</h3>
-          <p className="text-5xl font-bold my-4 text-green-400">$250 USD</p>
+          <p className="text-4xl sm:text-5xl font-bold my-4 text-green-400">$250 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $125 USD</p>
           <Link
             to="/agendar-reunion"

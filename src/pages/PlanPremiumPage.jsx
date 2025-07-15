@@ -64,9 +64,9 @@ export default function PlanPremiumPage() {
       </AnimatedSection>
 
       <AnimatedSection className="text-center mt-16">
-        <div className="bg-purple-900/20 border border-purple-500/30 p-8 rounded-2xl">
+        <div className="bg-purple-900/20 border border-purple-500/30 p-6 sm:p-8 rounded-2xl">
           <h3 className="text-2xl font-bold">Total del Plan Premium</h3>
-          <p className="text-5xl font-bold my-4 text-purple-400">$950 USD</p>
+          <p className="text-4xl sm:text-5xl font-bold my-4 text-purple-400">$950 USD</p>
           <p className="text-gray-400 mb-6">Pago inicial del 50%: $475 USD</p>
           <Link
             to="/agendar-reunion"

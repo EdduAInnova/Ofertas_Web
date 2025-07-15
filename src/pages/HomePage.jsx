@@ -84,9 +84,9 @@ const PlanCard = ({ plan, isFeatured }) => (
       {plan.icon}
       <h3 className={`text-3xl font-bold ${plan.color}`}>{plan.title}</h3>
     </div>
-    <p className="text-center text-gray-400 mb-6 h-12">{plan.subtitle}</p>
+    <p className="text-center text-gray-400 mb-6 min-h-[3.5rem]">{plan.subtitle}</p>
     <div className="text-center mb-8">
-      <span className="text-5xl font-bold">{plan.totalPriceUSD}</span>
+      <span className="text-4xl sm:text-5xl font-bold">{plan.totalPriceUSD}</span>
       <span className="text-gray-400"> USD</span>
     </div>
     <ul className="space-y-4 mb-8 flex-grow">
@@ -124,7 +124,7 @@ export default function HomePage() {
 
             {/* Logo superpuesto con efecto de neón */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-slate-900/80 md:bg-slate-900/60 shadow-[0_0_25px_theme(colors.purple.500)] md:backdrop-blur-sm">
+              <div className="flex h-24 w-24 md:h-28 md:w-28 items-center justify-center rounded-full bg-slate-900/80 md:bg-slate-900/60 shadow-[0_0_25px_theme(colors.purple.500)] md:backdrop-blur-sm">
                 <img 
                   src="/logo.png" 
                   alt="Logo de EdduAInnova" 

@@ -78,7 +78,7 @@ const ThankYouPage = () => {
   return (
     <PageLayout>
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className={`bg-gradient-to-bl from-[#101216] to-[#1c355b] border ${borderColor} rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-12 mx-auto text-white text-center animate-fade-in`}>
+        <div className={`bg-gradient-to-bl from-[#101216] to-[#1c355b] border ${borderColor} rounded-2xl shadow-2xl max-w-2xl w-full p-6 sm:p-8 md:p-12 mx-auto text-white text-center animate-fade-in`}>
           {status !== 'loading' && (
             <>
               <div className="mb-6 flex justify-center">{icon}</div>

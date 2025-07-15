@@ -13,7 +13,12 @@ import { plans } from '../data/plansData.jsx'; // Importamos la fuente de verdad
 
 // Estilos para que el calendario coincida con el diseño de la web
 const calendarStyles = `
-  .rdp { --rdp-cell-size: 40px; --rdp-accent-color: #a855f7; --rdp-background-color: #8b5cf6; margin: 1em 0; }
+  /* Estilos base para móvil */
+  .rdp { --rdp-cell-size: 32px; --rdp-accent-color: #a855f7; --rdp-background-color: #8b5cf6; margin: 1em auto; }
+  /* Aumentar tamaño en pantallas más grandes */
+  @media (min-width: 640px) { /* sm breakpoint */
+    .rdp { --rdp-cell-size: 40px; }
+  }
   .rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover { background-color: var(--rdp-background-color); color: #fff; }
   .rdp-button:hover:not([disabled]):not(.rdp-day_selected) { background-color: #374151; }
   .rdp-caption_label, .rdp-nav_button, .rdp-head_cell { color: #d1d5db; }
@@ -315,8 +320,8 @@ export default function SchedulingPage() {
   return (
     <PageLayout>
       {(isLoading || isPaymentLoading) && <LoadingSpinner colorClass={dynamicStyles.textColor} />}
-      <style>{calendarStyles}</style>
-      <div className="bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-4xl p-8 mx-auto text-white animate-fade-in">
+      <style>{calendarStyles}</style> {/* Inyectamos los estilos del calendario */}
+      <div className="bg-gradient-to-bl from-[#101216] to-[#1c355b] border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-4xl p-4 sm:p-6 md:p-8 mx-auto text-white animate-fade-in">
         <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-400 to-blue-600 text-transparent bg-clip-text">Agenda tu Reunión Inicial</h2>
         
         <form noValidate className="space-y-6">
@@ -361,7 +366,7 @@ export default function SchedulingPage() {
               </div>
               <div className="flex-1">
                 <h4 className="font-semibold mb-2 flex items-center gap-2"><Clock size={18}/> Hora (América/Bogotá)</h4>
-                <div className="grid grid-cols-3 gap-2 mt-1">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-1">
                   {timeSlots.map(({ time, isDisabled }) => (
                     <button
                       key={time}
