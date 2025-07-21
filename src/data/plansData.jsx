@@ -17,14 +17,14 @@ export const plans = [
     glowColor: "22, 163, 74", // green-600
     description: 'Pago inicial (50%) para el Plan Básico de desarrollo web.',
     features: [
-      { text: "Diseño personalizado basado en la imagen de Casa Regis", included: true },
-      { text: "Sitio web adaptado a celular", included: true },
-      { text: "Secciones: Inicio, Habitaciones, Contacto", included: true },
-      { text: "Enlace a Booking/Airbnb", included: true },
+      { text: "Diseño profesional (Landing Page)", included: true },
+      { text: "100% Adaptable a celulares", included: true },
+      { text: "Secciones: Inicio, Servicios, Contacto", included: true },
+      { text: "Enlaces a redes sociales", included: true },
       { text: "WhatsApp flotante + formulario", included: true },
       { text: "Posicionamiento en Google (SEO) Básico", included: true },
       { text: "Panel de gestión (CMS)", included: false },
-      { text: "Soporte técnico 7 días", included: true },
+      { text: "Soporte técnico 15 días post-entrega", included: true },
     ]
   },
   {
@@ -43,13 +43,13 @@ export const plans = [
     glowColor: "37, 99, 235", // blue-600
     description: 'Pago inicial (50%) para el Plan Profesional de desarrollo web.',
     features: [
-      { text: "Diseño atractivo con estilo profesional y UX/UI", included: true },
-      { text: "Sitio web adaptado a celular", included: true },
-      { text: "Secciones: + Galería, Opiniones, Ubicación", included: true },
-      { text: "Formulario interno de reservas", included: true },
+      { text: "Diseño web multi-página (hasta 5)", included: true },
+      { text: "100% Adaptable a celulares", included: true },
+      { text: "Secciones: + Blog, Galería, Testimonios", included: true },
+      { text: "Formulario de contacto avanzado", included: true },
       { text: "WhatsApp flotante + captura de datos", included: true },
       { text: "Posicionamiento en Google (SEO) Mejorado", included: true },
-      { text: "Panel de gestión (CMS) simple y editable", included: true },
+      { text: "Panel de gestión (CMS) + Capacitación", included: true },
       { text: "Soporte técnico 30 días", included: true },
     ]
   },
@@ -68,14 +68,14 @@ export const plans = [
     glowColor: "147, 51, 234", // purple-600
     description: 'Pago inicial (50%) para el Plan Premium de desarrollo web.',
     features: [
-      { text: "Diseño App-like con animaciones y detalles únicos", included: true },
+      { text: "Plataforma web con animaciones y UX superior", included: true },
       { text: "Experiencia móvil tipo aplicación", included: true },
-      { text: "Secciones: + Blog, Eventos, Promociones", included: true },
-      { text: "Motor de reservas directo + calendario inteligente", included: true },
-      { text: "Chat inteligente con IA para agendar 24/7", included: true },
-      { text: "Posicionamiento en Google (SEO) Profesional", included: true },
-      { text: "Panel de gestión (CMS) + Capacitación y videotutorial", included: true },
-      { text: "Soporte 90 días + mantenimiento mensual", included: true },
+      { text: "Secciones y funcionalidades a medida", included: true },
+      { text: "Integración con calendario y agendamiento", included: true },
+      { text: "Chat inteligente con IA para atención 24/7", included: true },
+      { text: "Posicionamiento en Google (SEO) Avanzado", included: true },
+      { text: "Panel de gestión (CMS) + Video-tutoriales", included: true },
+      { text: "Soporte 90 días + Mantenimiento básico", included: true },
     ]
   }
 ];

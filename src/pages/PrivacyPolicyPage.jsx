@@ -15,7 +15,7 @@ const PrivacyPolicyPage = () => {
 
         <AnimatedSection className="space-y-6 prose prose-invert prose-lg max-w-none">
           <p>
-            Bienvenido a IA Power Web. Su privacidad es de suma importancia para nosotros. Esta política de privacidad explica cómo recopilamos, usamos, divulgamos y salvaguardamos su información cuando visita nuestro sitio web.
+            Bienvenido a EdduAInnova. Su privacidad es de suma importancia para nosotros. Esta política de privacidad explica cómo recopilamos, usamos, divulgamos y salvaguardamos su información cuando visita nuestro sitio web.
           </p>
 
           <h2 className="text-2xl font-bold text-purple-400">1. Recopilación de Información</h2>

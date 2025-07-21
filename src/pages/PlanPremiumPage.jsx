@@ -24,13 +24,13 @@ export default function PlanPremiumPage() {
           <Benefit title="Diseño 'App-like' con Animaciones" color="purple">
             Elevamos tu web a otro nivel con un diseño que se siente como una aplicación móvil. Usamos animaciones sutiles y transiciones fluidas que crean una experiencia de usuario moderna y memorable.
           </Benefit>
-          <Benefit title="Motor de Reservas con Calendario" color="purple">
-            La máxima autonomía. Integramos un sistema de reservas completo con calendario de disponibilidad en tiempo real. Gestiona tus reservas, precios y temporadas directamente desde tu panel.
+          <Benefit title="Integración de Calendario y Agendamiento" color="purple">
+            La máxima autonomía. Integramos un sistema de agendamiento completo con calendario de disponibilidad en tiempo real para automatizar tus citas y reuniones.
           </Benefit>
           <Benefit title="Chat con IA 24/7" color="purple">
-            Tu recepcionista virtual. Configuramos un chatbot inteligente que puede responder preguntas frecuentes, dar información y hasta pre-agendar reservas, incluso mientras duermes.
+            Tu asistente virtual. Configuramos un chatbot inteligente que puede responder preguntas frecuentes, dar información y capturar leads, incluso mientras duermes.
           </Benefit>
-          <Benefit title="Sitio Multilenguaje" color="purple">
+          <Benefit title="Capacidad Multilenguaje" color="purple">
             Abre tus puertas al mundo. Preparamos tu sitio web para que funcione en varios idiomas (ej: Español e Inglés), permitiéndote captar clientes internacionales.
           </Benefit>
           <Benefit title="Soporte Extendido y Mantenimiento" color="purple">

@@ -1,17 +1,16 @@
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  // Carga las variables de entorno del archivo .env correspondiente al modo (development, production)
-  // El tercer parámetro '' asegura que se carguen TODAS las variables, no solo las que empiezan con VITE_
-  const env = loadEnv(mode, process.cwd(), '');
-  
-  return {
-    define: {
-      // Expone las variables de entorno al código del cliente bajo `process.env`
-      'process.env': env
+export default defineConfig({
+  plugins: [react()],
+  // --- ¡SOLUCIÓN AL ERROR ENOSPC! ---
+  // Le decimos a Vite que no vigile los cambios dentro de estas carpetas.
+  // Esto reduce drásticamente la cantidad de "vigilantes" de archivos que
+  // el sistema operativo necesita, evitando el error "no space left on device".
+  server: {
+    watch: {
+      ignored: ['**/node_modules/**', '**/.git/**'],
     },
-    plugins: [react()],
-  }
+  },
 })

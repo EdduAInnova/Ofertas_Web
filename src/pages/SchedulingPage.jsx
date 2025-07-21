@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PageLayout from '../components/PageLayout';
@@ -104,7 +104,6 @@ export default function SchedulingPage() {
     disabledBg: 'disabled:bg-gray-600'
   });
 
-  // Declaración de estados principales. Es crucial que estén antes de los `useEffect` que los usan.
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formState, setFormState] = useState({
     name: '',
@@ -119,16 +118,13 @@ export default function SchedulingPage() {
   const [errors, setErrors] = useState({});
 
 
-  // --- ¡LA MAGIA OCURRE AQUÍ! ---
-  // Este efecto se ejecuta cuando la página carga.
-  // Si venimos de una página de plan (usando el 'state' del Link),
-  // pre-selecciona ese plan en el formulario.
   useEffect(() => {
+    // Si venimos de una página de plan, pre-seleccionamos ese plan.
     if (location.state?.selectedPlan) {
       setFormState(prev => ({ ...prev, selectedPlan: location.state.selectedPlan }));
       setIsPlanFixed(true); // Bloqueamos la selección del plan
     }
-  }, [location.state]);
+  }, [location.state?.selectedPlan]);
 
   // Efecto para actualizar los estilos dinámicos cuando cambia el plan
   useEffect(() => {
@@ -240,10 +236,10 @@ export default function SchedulingPage() {
   };
 
   // Acción para "Solo Agendar Cita"
-  const handleScheduleOnly = async (e) => {
-    e.preventDefault();
+  const handleScheduleOnly = useCallback(async (e) => {
+    if (e) e.preventDefault();
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
     const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
 
@@ -266,16 +262,16 @@ export default function SchedulingPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formState, selectedDate, navigate, validateForm]);
 
   // Acción para "Agendar y Pagar Plan"
-  const handleScheduleAndPay = async (e) => {
-    e.preventDefault();
+  const handleScheduleAndPay = useCallback(async (e) => {
+    if (e) e.preventDefault();
     if (!validateForm()) return;
 
     setIsLoading(true);
     const { name, email, phone, selectedPlan, selectedTime, meetingType } = formState;
-    
+
     // Usamos los detalles del plan calculados previamente
     if (!selectedPlanDetails || !paymentAmount) {
       alert('Error: No se pudo encontrar el plan seleccionado. Por favor, recarga la página.');
@@ -298,6 +294,14 @@ export default function SchedulingPage() {
 
       if (insertError) throw insertError;
 
+      // ¡CORRECCIÓN CLAVE!
+      // Una vez que la cita se guarda en nuestra base de datos, apagamos el
+      // spinner de la página (`isLoading`). Ahora, el spinner del hook `useEpayco`
+      // (`isPaymentLoading`) tomará el control. Si el usuario cierra el modal de
+      // pago, el hook se encargará de apagar su propio spinner, y la página
+      // volverá a la normalidad sin quedarse bloqueada.
+      setIsLoading(false);
+
       // --- Pre-llenado de datos para ePayco ---
       // Aquí enviamos la información a ePayco para que el usuario
       // vea el formulario de pago con su email y el monto ya listos.
@@ -313,9 +317,10 @@ export default function SchedulingPage() {
     } catch (error) {
       console.error('Error en el proceso de pago:', error);
       alert('Hubo un error al iniciar el proceso de pago. Por favor, intenta de nuevo.');
-      setIsLoading(false); // Solo si el pago falla antes de redirigir
+      setIsLoading(false);
     }
-  };
+  }, [formState, selectedDate, selectedPlanDetails, paymentAmount, handlePayment, navigate, validateForm]);
+
 
   return (
     <PageLayout>

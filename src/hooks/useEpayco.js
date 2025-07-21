@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 /**
  * Hook personalizado para gestionar la integración con la pasarela de pago ePayco.
@@ -24,13 +24,13 @@ export const useEpayco = () => {
    * Inicia el proceso de pago abriendo el modal de ePayco.
    * @param {object} options - Datos necesarios para la transacción.
    */
-  const handlePayment = (options) => {
+  const handlePayment = useCallback((options) => {
     if (!window.ePayco) {
       console.error("El script de ePayco no está cargado todavía.");
       alert("La pasarela de pago no está lista, por favor espera un momento y vuelve a intentarlo.");
       return;
     }
-
+  
     setIsLoading(true);
 
     const handler = window.ePayco.checkout.configure({
@@ -51,8 +51,7 @@ export const useEpayco = () => {
     };
 
     handler.open(data);
-  };
+  }, []); // Dependencia vacía para que la función no se recree en cada render
 
   return { isLoading, handlePayment };
 };
-

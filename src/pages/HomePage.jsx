@@ -1,25 +1,26 @@
-import React, { useState } from "react";
+// src/pages/HomePage.jsx - VERSIÓN FINAL CON ANIMACIÓN RESTAURADA
+
+import React from "react";
 import { Link } from "react-router-dom";
-import { Check, X, CalendarCheck, Star, Palette, ShieldCheck, Smartphone, Search, BrainCircuit, Feather, Briefcase, Gem, Rocket, HelpCircle, Sparkles, Layers } from "lucide-react";
+import { Check, X, CalendarCheck, Star, Palette, ShieldCheck, Smartphone, Search, BrainCircuit, Rocket, HelpCircle, Sparkles, Layers } from "lucide-react";
 import Footer from "../components/Footer";
 import AnimatedSection from "../components/AnimatedSection";
-import { plans as plansData } from "../data/plansData.jsx"; // Importar la fuente única de verdad
-import FaqItem from "../components/FaqItem"; // Importamos el nuevo componente
+import { plans as plansData } from "../data/plansData.jsx";
+import FaqItem from "../components/FaqItem";
 
-// --- Datos de la página (integrados para evitar errores de importación) ---
 const whatWeDoData = [
-  { icon: <Palette className="w-8 h-8 text-purple-500" />, title: "Presentación de Impacto", description: "Mostraremos sus hermosas suites y espacios con fotos y videos de alta calidad que enamoren a primera vista." },
-  { icon: <CalendarCheck className="w-8 h-8 text-purple-500" />, title: "Reservas Fáciles", description: "Permitiremos reservas rápidas y directas, eliminando comisiones de terceros y simplificando el proceso para el cliente." },
-  { icon: <ShieldCheck className="w-8 h-8 text-purple-500" />, title: "Generación de Confianza", description: "Con información clara, ubicación precisa y testimonios, construiremos una imagen de total profesionalismo y seguridad." },
-  { icon: <Smartphone className="w-8 h-8 text-purple-500" />, title: "Experiencia Móvil Perfecta", description: "Garantizamos que la web se vea y funcione de maravilla en cualquier dispositivo: celular, tablet o computador." },
-  { icon: <Search className="w-8 h-8 text-purple-500" />, title: "Visibilidad en Google", description: "Optimizaremos la página para que aparezca en los primeros resultados cuando los clientes busquen hospedaje en la zona." },
-  { icon: <BrainCircuit className="w-8 h-8 text-purple-500" />, title: "Toque de IA", description: "Integraremos herramientas inteligentes como chatbots o respuestas automáticas para mejorar la atención al cliente 24/7." },
+  { icon: <Palette className="w-8 h-8 text-purple-500" />, title: "Diseño Web y Apps con IA", description: "Creamos sitios y aplicaciones web que no solo lucen increíbles, sino que son inteligentes, rápidos y están diseñados para convertir visitantes en clientes." },
+  { icon: <CalendarCheck className="w-8 h-8 text-purple-500" />, title: "Automatización y Procesos", description: "Implementamos sistemas de agendamiento, CRMs y flujos de trabajo automáticos para que tu negocio opere con máxima eficiencia, ahorrándote tiempo y dinero." },
+  { icon: <ShieldCheck className="w-8 h-8 text-purple-500" />, title: "Seguridad y Rendimiento", description: "Construimos sobre una base tecnológica robusta, garantizando que tu plataforma sea segura, escalable y ofrezca una experiencia de usuario impecable." },
+  { icon: <Smartphone className="w-8 h-8 text-purple-500" />, title: "Experiencia Móvil Superior", description: "Garantizamos que tu presencia digital sea perfecta en cualquier dispositivo, brindando una experiencia fluida que tus clientes amarán." },
+  { icon: <Search className="w-8 h-8 text-purple-500" />, title: "Visibilidad y SEO Inteligente", description: "Optimizamos tu sitio con estrategias SEO avanzadas para que domines los rankings de búsqueda y atraigas tráfico orgánico de calidad." },
+  { icon: <BrainCircuit className="w-8 h-8 text-purple-500" />, title: "Consultoría e Integración IA", description: "Analizamos tu negocio y te ayudamos a integrar las herramientas de inteligencia artificial adecuadas para potenciar tu marketing, ventas y atención al cliente." },
 ];
 
 const faqData = [
   {
     question: "¿Qué necesito para empezar?",
-    answer: "Depende del plan. Para el Básico, necesitas tu hosting y dominio. Para el Profesional y Premium, ¡nosotros nos encargamos de todo por el primer año! Solo necesitamos tu logo, fotos y la información de tu hotel."
+    answer: "Depende del plan. Para el Básico, necesitas tu hosting y dominio. Para el Profesional y Premium, ¡nosotros nos encargamos de todo por el primer año! Solo necesitamos tu logo, imágenes y la información de tu negocio."
   },
   {
     question: "¿En cuánto tiempo estará lista mi página web?",
@@ -39,8 +40,6 @@ const faqData = [
   }
 ];
 
-// --- Componentes Reutilizables ---
-
 const SectionTitle = ({ icon, children }) => (
   <div className="flex justify-center items-center gap-4 mb-12">
     {icon}
@@ -51,9 +50,7 @@ const SectionTitle = ({ icon, children }) => (
 );
 
 const FeatureCard = ({ icon, title, children }) => (
-  <div className="bg-white/5 p-6 rounded-lg border border-white/10 transform transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(192,132,252,0.25)] 
-                contain-layout contain-style will-change-[transform,box-shadow]"
-  >
+  <div className="bg-white/5 p-6 rounded-lg border border-white/10 transform transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(192,132,252,0.25)]">
     <div className="flex items-center gap-4 mb-3">
       {icon}
       <h3 className="font-bold text-xl text-blue-400">{title}</h3>
@@ -72,8 +69,7 @@ const PlanFeature = ({ text, included }) => (
 const PlanCard = ({ plan, isFeatured }) => (
   <div
     style={{ '--glow-color': plan.glowColor }}
-    className={`relative bg-white/10 md:bg-white/5 md:backdrop-blur-xl border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} 
-                hover:shadow-[0_0_25px_rgba(var(--glow-color),0.4)] contain-layout contain-style will-change-[transform,box-shadow]`}
+    className={`relative bg-white/10 md:bg-white/5 md:backdrop-blur-xl border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} hover:shadow-[0_0_25px_rgba(var(--glow-color),0.4)]`}
   >
     {isFeatured && (
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
@@ -103,54 +99,47 @@ const PlanCard = ({ plan, isFeatured }) => (
   </div>
 );
 
-// --- Componente Principal ---
-
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-[#0b0c0f] via-[#101216] to-[#1c355b] text-white px-4 py-10 font-sans relative">
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-24">
-          {/* --- Contenedor para la imagen de portada y el logo superpuesto --- */}
-          <div className="relative inline-block">
-            {/* Imagen de portada */}
-            <img
-              src="/casa_regis.webp"
-              alt="Fachada elegante del aparta suites Casa Regis"
-              className="rounded-xl mx-auto shadow-2xl shadow-blue-500/20 w-full max-w-4xl max-h-96 object-cover"
-            />
-
-            {/* Superposición oscura sobre la imagen */}
-            <div className="absolute inset-0 bg-black/30 rounded-xl"></div>
-
-            {/* Logo superpuesto con efecto de neón */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-              <div className="flex h-24 w-24 md:h-28 md:w-28 items-center justify-center rounded-full bg-slate-900/80 md:bg-slate-900/60 shadow-[0_0_25px_theme(colors.purple.500)] md:backdrop-blur-sm">
-                <img 
-                  src="/logo.png" 
-                  alt="Logo de EdduAInnova" 
-                  className="h-full w-full rounded-full object-cover"
-                />
-              </div>
+          {/* Contenedor del logo como encabezado */}
+          <div className="flex justify-center items-center mb-8">
+            <div className="h-32 w-32 md:h-40 md:w-40 rounded-full bg-slate-900/80 md:bg-slate-900/60 shadow-[0_0_25px_theme(colors.purple.500)] md:backdrop-blur-sm flex items-center justify-center">
+              <img
+                src="/logo_2.png"
+                alt="Logo de EdduAInnova"
+                className="h-full w-full rounded-full object-cover"
+              />
             </div>
           </div>
 
-          {/* --- Contenido de texto, con espacio para el logo --- */}
-          <div className="pt-20">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight">
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-600 text-transparent bg-clip-text">
-                Propuesta Web a la Medida para{' '}
+          {/* Título y descripción centrados */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+             <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text animate-text">
+                Transforma tu Negocio con Inteligencia Artificial
               </span>
-              <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text">Casa Regis</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-              By <strong>EdduAInnova</strong> — Tecnología que transforma el turismo. Esto <em>ya es</em> un ejemplo vivo de lo que podemos hacer por ti.
-            </p>
-          </div>
+
+
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
+            En <strong>EdduAInnova</strong>, creamos soluciones web y de software a medida que potencian tu marca, automatizan tus procesos y te preparan para el futuro digital.
+          </p>
+
+          {/* Imagen de fondo (opcional, si aún deseas mantenerla) */}
+          {/*
+          <img
+            src="/portada.png"
+            alt="Visualización abstracta de redes neuronales e inteligencia artificial"
+            className="rounded-xl mx-auto shadow-2xl shadow-blue-500/20 w-full max-h-[50rem] object-cover mt-12"
+          />
+          */}
         </header>
 
         <AnimatedSection className="mb-24">
           <SectionTitle icon={<Sparkles className="w-10 h-10 text-purple-400" />}>
-            ¿Qué haremos por Casa Regis?
+            Nuestros Servicios Clave
           </SectionTitle>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whatWeDoData.map((item) => (
@@ -196,9 +185,9 @@ export default function HomePage() {
         </AnimatedSection>
 
         <AnimatedSection className="text-center bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl p-10 border border-white/10">
-          <h3 className="text-3xl font-bold mb-4">¿Listo para llevar a Casa Regis al siguiente nivel?</h3>
+          <h3 className="text-3xl font-bold mb-4">¿Listo para llevar tu Negocio al Siguiente Nivel?</h3>
           <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-            Casa Regis merece un sitio web tan elegante como su arquitectura. Agendemos una reunión para definir el plan ideal para ti.
+            Tu visión merece la mejor tecnología. Agendemos una reunión para explorar cómo podemos ayudarte a alcanzar tus objetivos.
           </p>
           <Link
             to="/agendar-reunion"
@@ -209,19 +198,21 @@ export default function HomePage() {
         </AnimatedSection>
 
         <Footer />
-
       </div>
 
+      {/* --- WIDGET DE WHATSAPP --- */}
+      {/* ¡CORREGIDO! Posicionado a la izquierda y con la animación correcta */}
       <a
-        href="https://wa.me/573185462265?text=Hola!%20Estoy%20interesado%20en%20la%20propuesta%20web%20para%20Casa%20Regis."
-        className="fixed bottom-6 right-6 z-50 animate-pulse"
-        target="_blank"
-        rel="noopener noreferrer"
+      //  href="https://wa.me/573185462265?text=Hola!%20Estoy%20interesado%20en%20sus%20servicios%20de%20desarrollo%20e%20IA."
+      //  className="fixed bottom-6 left-6 z-50"
+      //  target="_blank"
+      //  rel="noopener noreferrer"
+      //  aria-label="Contactar por WhatsApp"
       >
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-          alt="Icono de WhatsApp para contacto directo"
-          className="w-16 h-16 hover:scale-110 transition-transform drop-shadow-[0_0_10px_#25D366]"
+      //  src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+      //  alt="Icono de WhatsApp para contacto directo"
+      //  className="w-16 h-16 hover:scale-110 transition-transform animate-glow-whatsapp"
         />
       </a>
     </div>

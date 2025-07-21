@@ -15,12 +15,12 @@ const TermsAndConditionsPage = () => {
 
         <AnimatedSection className="space-y-6 prose prose-invert prose-lg max-w-none">
           <p>
-            Estos Términos y Condiciones rigen el uso de los servicios de desarrollo web ofrecidos por IA Power Web. Al contratar nuestros servicios, usted acepta estar sujeto a estos términos.
+            Estos Términos y Condiciones rigen el uso de los servicios de desarrollo web ofrecidos por EdduAInnova. Al contratar nuestros servicios, usted acepta estar sujeto a estos términos.
           </p>
 
           <h2 className="text-2xl font-bold text-purple-400">1. Descripción de los Servicios</h2>
           <p>
-            IA Power Web se compromete a desarrollar un sitio web según las especificaciones del plan contratado por el cliente. Las características de cada plan están detalladas en las páginas correspondientes de nuestro sitio web.
+            EdduAInnova se compromete a desarrollar un sitio web según las especificaciones del plan contratado por el cliente. Las características de cada plan están detalladas en las páginas correspondientes de nuestro sitio web.
           </p>
 
           <h2 className="text-2xl font-bold text-purple-400">2. Pagos y Facturación</h2>
@@ -47,12 +47,12 @@ const TermsAndConditionsPage = () => {
 
           <h2 className="text-2xl font-bold text-purple-400">4. Propiedad Intelectual</h2>
           <p>
-            Una vez completado el pago final, el cliente será el propietario exclusivo de todo el diseño y contenido del sitio web. IA Power Web se reserva el derecho de mostrar el proyecto en su portafolio.
+            Una vez completado el pago final, el cliente será el propietario exclusivo de todo el diseño y contenido del sitio web. EdduAInnova se reserva el derecho de mostrar el proyecto en su portafolio.
           </p>
 
           <h2 className="text-2xl font-bold text-purple-400">5. Limitación de Responsabilidad</h2>
           <p>
-            IA Power Web no será responsable por pérdidas de datos, interrupciones del servicio o cualquier daño indirecto que surja del uso del sitio web una vez entregado. El mantenimiento y la seguridad del sitio, pasados los periodos de soporte incluidos en cada plan, son responsabilidad del cliente.
+            EdduAInnova no será responsable por pérdidas de datos, interrupciones del servicio o cualquier daño indirecto que surja del uso del sitio web una vez entregado. El mantenimiento y la seguridad del sitio, pasados los periodos de soporte incluidos en cada plan, son responsabilidad del cliente.
           </p>
 
           <h2 className="text-2xl font-bold text-purple-400">6. Contacto</h2>

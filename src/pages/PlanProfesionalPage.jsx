@@ -24,16 +24,16 @@ export default function PlanProfesionalPage() {
           <Benefit title="Diseño Optimizado (UX/UI)" color="blue">
             No solo creamos un sitio bonito, lo diseñamos pensando en el usuario. Hacemos que la navegación sea intuitiva y la experiencia de reserva sea tan sencilla que tus clientes querrán volver.
           </Benefit>
-          <Benefit title="Galería, Testimonios y más" color="blue">
-            Añadimos secciones clave que generan confianza: una **Galería** de fotos espectacular, una sección de **Testimonios** de clientes satisfechos y un apartado de **Preguntas Frecuentes** para resolver dudas al instante.
+          <Benefit title="Blog, Galería y Testimonios" color="blue">
+            Añadimos secciones clave que generan confianza y autoridad: un **Blog** para compartir contenido, una **Galería** de proyectos y una sección de **Testimonios** de clientes satisfechos.
           </Benefit>
-          <Benefit title="Formulario Interno de Reservas" color="blue">
-            Da un salto en profesionalismo. En lugar de solo enlazar a otras plataformas, integramos un formulario en tu web para que puedas gestionar las solicitudes de reserva directamente.
+          <Benefit title="Formularios Avanzados" color="blue">
+            Integramos formularios de contacto y cotización personalizados para capturar la información que necesitas de tus clientes potenciales de forma estructurada.
           </Benefit>
           <Benefit title="Google Maps y SEO Mejorado" color="blue">
             Integramos un mapa interactivo de Google y optimizamos tu sitio con palabras clave relevantes para tu negocio y ubicación, aumentando tus posibilidades de ser encontrado por nuevos clientes.
           </Benefit>
-          <Benefit title="Panel Editable con Capacitación" color="blue">
+          <Benefit title="Panel de Gestión (CMS) con Capacitación" color="blue">
             Te damos el control. Recibirás acceso a un panel de gestión sencillo donde podrás editar textos e imágenes. Además, te incluimos una capacitación para que aprendas a manejarlo sin complicaciones.
           </Benefit>
           <Benefit title="Dominio y Hosting por 1 Año" color="blue">

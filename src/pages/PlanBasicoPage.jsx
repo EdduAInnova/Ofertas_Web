@@ -24,17 +24,14 @@ export default function PlanBasicoPage() {
           <Benefit title="Diseño Personalizado Básico" color="green">
             Crearemos un sitio web con un diseño limpio y profesional que refleje la identidad de tu marca, usando tus colores y logo. Es la base perfecta para presentarte al mundo.
           </Benefit>
-          <Benefit title="Sitio Web Adaptable (Responsive)" color="green">
-            Tu página se verá increíble y funcionará a la perfección en cualquier dispositivo: celulares, tablets y computadores. Esto es crucial, ya que la mayoría de tus clientes te visitarán desde su móvil.
-          </Benefit>
           <Benefit title="Secciones Esenciales" color="green">
-            Incluiremos las páginas más importantes: un **Inicio** atractivo, una sección para mostrar tus **Habitaciones** o servicios, y una página de **Contacto** con tu información y un mapa.
-          </Benefit>
-          <Benefit title="Enlace a Plataformas de Reserva" color="green">
-            Si ya usas Booking, Airbnb u otra plataforma, pondremos botones y enlaces directos para que tus clientes puedan reservar fácilmente donde ya se sienten cómodos.
+            Incluiremos las secciones más importantes: un **Inicio** atractivo, una sección para mostrar tus **Servicios** o productos, y una página de **Contacto** con tu información.
           </Benefit>
           <Benefit title="Contacto Directo por WhatsApp" color="green">
             Añadiremos un botón flotante de WhatsApp para que los visitantes puedan hablar contigo con un solo clic, resolviendo dudas y aumentando la confianza para que reserven.
+          </Benefit>
+          <Benefit title="Sitio Web Adaptable (Responsive)" color="green">
+            Tu página se verá increíble y funcionará a la perfección en cualquier dispositivo: celulares, tablets y computadores. Esencial en el mundo móvil de hoy.
           </Benefit>
           <Benefit title="SEO Básico" color="green">
             Configuraremos los elementos básicos para que los motores de búsqueda como Google puedan encontrar y entender tu sitio, ayudándote a aparecer en las búsquedas locales.
