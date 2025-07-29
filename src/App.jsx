@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/agendar-reunion" element={<SchedulingPage />} />
           <Route path="/gracias" element={<ThankYouPage />} />
           {/* Añadimos las rutas para que sean accesibles */}
-          <Route path="/politica-de-privacidad" element={<PrivacyPolicyPage />} />
+          <Route path="/privacidad" element={<PrivacyPolicyPage />} />
           <Route path="/terminos-y-condiciones" element={<TermsAndConditionsPage />} />
         </Routes>
       </Suspense>
