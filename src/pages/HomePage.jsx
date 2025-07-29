@@ -7,6 +7,9 @@ import Footer from "../components/Footer";
 import AnimatedSection from "../components/AnimatedSection";
 import { plans as plansData } from "../data/plansData.jsx";
 import FaqItem from "../components/FaqItem";
+import { PlanCard } from "../components/home/PlanCard";
+import { SectionTitle } from '../components/home/SectionTitle';
+import { FeatureCard } from '../components/home/FeatureCard';
 
 const whatWeDoData = [
   { icon: <Palette className="w-8 h-8 text-purple-500" />, title: "Diseño Web y Apps con IA", description: "Creamos sitios y aplicaciones web que no solo lucen increíbles, sino que son inteligentes, rápidos y están diseñados para convertir visitantes en clientes." },
@@ -39,65 +42,6 @@ const faqData = [
     answer: "Totalmente. Usamos ePayco, una de las pasarelas de pago más seguras y reconocidas de Latinoamérica. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta."
   }
 ];
-
-const SectionTitle = ({ icon, children }) => (
-  <div className="flex justify-center items-center gap-4 mb-12">
-    {icon}
-    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text pb-2">
-      {children}
-    </h2>
-  </div>
-);
-
-const FeatureCard = ({ icon, title, children }) => (
-  <div className="bg-white/5 p-6 rounded-lg border border-white/10 transform transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(192,132,252,0.25)]">
-    <div className="flex items-center gap-4 mb-3">
-      {icon}
-      <h3 className="font-bold text-xl text-blue-400">{title}</h3>
-    </div>
-    <p className="text-gray-400">{children}</p>
-  </div>
-);
-
-const PlanFeature = ({ text, included }) => (
-  <li className={`flex items-start gap-3 ${included ? 'text-gray-200' : 'text-gray-500'}`}>
-    {included ? <Check className="text-green-400 w-5 h-5 mt-1 shrink-0" /> : <X className="text-red-500 w-5 h-5 mt-1 shrink-0" />}
-    <span>{text}</span>
-  </li>
-);
-
-const PlanCard = ({ plan, isFeatured }) => (
-  <div
-    style={{ '--glow-color': plan.glowColor }}
-    className={`relative bg-white/10 md:bg-white/5 md:backdrop-blur-xl border rounded-2xl p-8 shadow-2xl transform transition-all duration-300 hover:scale-105 flex flex-col ${isFeatured ? 'border-purple-500' : 'border-white/20 hover:border-white/60'} hover:shadow-[0_0_25px_rgba(var(--glow-color),0.4)]`}
-  >
-    {isFeatured && (
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
-        <Star className="w-4 h-4" /> RECOMENDADO
-      </div>
-    )}
-    <div className="flex justify-center items-center gap-3 mb-2">
-      {plan.icon}
-      <h3 className={`text-3xl font-bold ${plan.color}`}>{plan.title}</h3>
-    </div>
-    <p className="text-center text-gray-400 mb-6 min-h-[3.5rem]">{plan.subtitle}</p>
-    <div className="text-center mb-8">
-      <span className="text-4xl sm:text-5xl font-bold">{plan.totalPriceUSD}</span>
-      <span className="text-gray-400"> USD</span>
-    </div>
-    <ul className="space-y-4 mb-8 flex-grow">
-      {plan.features.map((feature) => (
-        <PlanFeature key={feature.text} text={feature.text} included={feature.included} />
-      ))}
-    </ul>
-    <Link
-      to={plan.path}
-      className={`w-full mt-auto text-center block px-6 py-3 text-white text-lg rounded-full font-semibold transition-all duration-300 hover:scale-105 ${plan.buttonBg} hover:shadow-[0_0_15px_rgba(var(--glow-color),0.5)]`}
-    >
-      Seleccionar Plan
-    </Link>
-  </div>
-);
 
 export default function HomePage() {
   return (
@@ -200,21 +144,6 @@ export default function HomePage() {
         <Footer />
       </div>
 
-      {/* --- WIDGET DE WHATSAPP --- */}
-      {/* ¡CORREGIDO! Posicionado a la izquierda y con la animación correcta */}
-      <a
-      //  href="https://wa.me/573185462265?text=Hola!%20Estoy%20interesado%20en%20sus%20servicios%20de%20desarrollo%20e%20IA."
-      //  className="fixed bottom-6 left-6 z-50"
-      //  target="_blank"
-      //  rel="noopener noreferrer"
-      //  aria-label="Contactar por WhatsApp"
-      >
-        <img
-      //  src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-      //  alt="Icono de WhatsApp para contacto directo"
-      //  className="w-16 h-16 hover:scale-110 transition-transform animate-glow-whatsapp"
-        />
-      </a>
     </div>
   );
 }

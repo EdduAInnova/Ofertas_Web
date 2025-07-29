@@ -420,7 +420,7 @@ export default function SchedulingPage() {
             <label className="flex items-start gap-3 text-gray-300 cursor-pointer">
               <input type="checkbox" name="privacyAccepted" checked={formState.privacyAccepted} onChange={handleChange} className={`mt-1 h-4 w-4 rounded border-gray-400 focus:ring-offset-0 focus:ring-2 shrink-0 ${dynamicStyles.textColor} focus:${dynamicStyles.textColor}`} />
               <span>
-                He leído y acepto la <Link to="/politica-de-privacidad" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Política de Privacidad</Link>.
+                He leído y acepto la <Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Política de Privacidad</Link>.
               </span>
             </label>
             {errors.privacyAccepted && <p className="text-red-500 text-xs -mt-2 ml-7">{errors.privacyAccepted}</p>}
