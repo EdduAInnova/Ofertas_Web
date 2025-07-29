@@ -46,6 +46,11 @@ export const useEpayco = () => {
     const data = {
       ...options, // Pasamos todas las opciones recibidas (name, description, amount, etc.)
       external: 'false', // Usamos el checkout "On-page" que se integra en la web.
+      // --- ¡MEJORA Y CORRECCIÓN! ---
+      // Centralizamos las URLs de respuesta y confirmación aquí para evitar ambigüedades.
+      // Esto asegura que ePayco siempre sepa a dónde redirigir al usuario y a dónde enviar el webhook.
+      response: `${window.location.origin}/gracias`,
+      confirmation: `${window.location.origin}/api/epayco-confirmation`,
       lang: 'es',
       onClose: () => {
         setIsLoading(false); // Detiene la carga si el usuario cierra el modal.
