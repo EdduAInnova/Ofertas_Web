@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/((?!api/|assets/|devia.png|logo_2.png|portada.png|_vercel/|favicon.ico).*)",
-      "destination": "/index.html"
-    }
-  ]
-}
