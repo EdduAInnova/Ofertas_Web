@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useSearchParams, Link } from 'react-router-dom';
+import { useLocation, useSearchParams, Link, useNavigate } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import { CheckCircle, XCircle, Clock, AlertCircle } from 'lucide-react';
 
 const ThankYouPage = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const [status, setStatus] = useState('loading'); // loading, consulta, exito, rechazo, pendiente, error
+  const navigate = useNavigate();
+  const [status, setStatus] = useState('loading'); // loading, consulta, exito, rechazo, pendiente
   const [message, setMessage] = useState({ title: '', text: '' });
 
   useEffect(() => {
@@ -55,21 +56,17 @@ const ThankYouPage = () => {
           });
       }
     } else {
-      // Caso por defecto si se llega a la página sin contexto
-      setStatus('error');
-      setMessage({
-        title: 'Gracias por tu interés',
-        text: 'Si tienes alguna pregunta, no dudes en contactarnos.',
-      });
+      // Caso por defecto: si se llega a la página sin contexto (ni estado, ni params de ePayco),
+      // es mejor redirigir al inicio para evitar que el usuario vea una página vacía o de error.
+      navigate('/');
     }
-  }, [location.state, searchParams]);
+  }, [location.state, searchParams, navigate]);
 
   const statusConfig = {
     consulta: { icon: <CheckCircle size={64} className="text-cyan-400" />, borderColor: 'border-cyan-500/30' },
     exito: { icon: <CheckCircle size={64} className="text-green-400" />, borderColor: 'border-green-500/30' },
     rechazo: { icon: <XCircle size={64} className="text-red-400" />, borderColor: 'border-red-500/30' },
     pendiente: { icon: <Clock size={64} className="text-yellow-400" />, borderColor: 'border-yellow-500/30' },
-    error: { icon: <AlertCircle size={64} className="text-gray-400" />, borderColor: 'border-gray-500/30' },
     loading: { icon: null, borderColor: 'border-transparent' },
   };
 

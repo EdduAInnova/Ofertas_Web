@@ -5,3 +5,9 @@
 .env
 .env.*
 !.env.example
+
+# Ignorar archivos temporales de configuración con timestamp
+*.timestamp-*.mjs
+
+# Ignorar archivos de prueba (mocks)
+mock.json

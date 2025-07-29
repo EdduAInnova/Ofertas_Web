@@ -313,6 +313,15 @@ export default function SchedulingPage() {
         amount: paymentAmount.toString(), // El 50% del total, convertido a texto
         name_billing: name,
         email_billing: email,
+        // --- ¡LA SOLUCIÓN! ---
+        // Aquí le decimos a ePayco a dónde regresar al usuario después de la transacción.
+        // Esto funciona para pagos exitosos, rechazados o, como en tu caso, cancelados.
+        // Tu página de Gracias ya está preparada para manejar esta respuesta.
+        response: `${window.location.origin}/gracias`, // URL para el cliente (navegador)
+        // --- MEJORA: URL del Webhook desde variables de entorno ---
+        // Esta es la URL de nuestro backend (la Vercel Serverless Function).
+        // Apunta a /api/epayco-confirmation, que Vercel servirá automáticamente.
+        confirmation: `${window.location.origin}/api/epayco-confirmation`,
       });
     } catch (error) {
       console.error('Error en el proceso de pago:', error);

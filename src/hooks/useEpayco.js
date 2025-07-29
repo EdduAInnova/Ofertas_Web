@@ -36,8 +36,11 @@ export const useEpayco = () => {
     const handler = window.ePayco.checkout.configure({
       // Lee la llave PÚBLICA desde las variables de entorno de Vite.
       key: import.meta.env.VITE_EPAYCO_PUBLIC_KEY,
-      // ¡IMPORTANTE! Poner en `false` para aceptar pagos REALES.
-      test: false,
+      // --- MEJORA DE SEGURIDAD: Modo de prueba configurable ---
+      // Leemos el modo de prueba desde una variable de entorno.
+      // Esto nos permite forzar el modo de prueba en Vercel para tests
+      // sin arriesgar dinero real. 'true' activa el modo prueba.
+      test: import.meta.env.VITE_EPAYCO_TEST_MODE === 'true',
     });
 
     const data = {
