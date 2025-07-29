@@ -46,7 +46,6 @@ export const useEpayco = () => {
     const data = {
       ...options, // Pasamos todas las opciones recibidas (name, description, amount, etc.)
       external: 'false', // Usamos el checkout "On-page" que se integra en la web.
-      response: `${window.location.origin}/gracias`, // URL de redirección post-pago.
       lang: 'es',
       onClose: () => {
         setIsLoading(false); // Detiene la carga si el usuario cierra el modal.
